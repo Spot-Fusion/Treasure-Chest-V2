@@ -9,6 +9,7 @@ import {
 import HomePage from './pages/HomePage'
 import UsersPage from './pages/UsersPage'
 import MessagesPage from './pages/MessagesPage'
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
       <div>
         <nav>
           <ul>
+          <li>
+              <Link to="/">Login</Link>
+            </li>
             <li>
               <Link to="/home">Home</Link>
             </li>
@@ -28,13 +32,15 @@ function App() {
           </ul>
         </nav>
         <Switch>
+        <Route exact path="/" render={() => (<LoginPage />)} />
           <Route exact path="/messages" render={() => (<MessagesPage />)} />
           <Route exact path="/users" render={() => (<UsersPage />)} />          
           <Route exact path="/home" render={() => (<HomePage />)} />            
         </Switch>
       </div>
     </Router>
-  );
+  )
 }
+
 
 export default App;
