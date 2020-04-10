@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ProfiePage() {
+function ProfilePage() {
     return (
         <div>
             
@@ -8,4 +8,4 @@ function ProfiePage() {
     )
 }
 
-export default ProfiePage
+export default ProfilePage
