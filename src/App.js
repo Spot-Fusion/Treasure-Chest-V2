@@ -23,9 +23,9 @@ function App() {
 
   return (
     <Router>
-      <div>
-       {menuVisible ? <DrawerNav /> : null}
-       {redirect ? <Redirect to={{pathname: '/home'}} /> : null }
+      <div className='App'>
+      {menuVisible ? <DrawerNav /> : null}
+      {redirect ? <Redirect to={{pathname: '/home'}} /> : null }
         <Switch>
           <Route exact path="/" render={() => (<LoginPage setMenu={setMenu}/>)} />
           <Route exact path="/messages" render={() => (<MessagesPage />)} />
