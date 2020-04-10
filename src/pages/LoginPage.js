@@ -1,35 +1,42 @@
 import * as React from 'react'
 import { GiChest } from "react-icons/gi";
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { GoogleLogin } from 'react-google-login';
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const CLIENT_ID = '429212164620-t05aq3o7i59dko6cnsd9d2obp0s8qdrn.apps.googleusercontent.com';
-
 const SignUpLogin = ({ setMenu }) => {
-  // const [isLoggedIn, setLoggedIn] = React.useState(false);
-  // const [accessToken, setAccessToken] = React.useState('');
+
+  const addUser = async (name, email, icon) => {
+    let user = await axios.post(`http://localhost:8080/user/`, { name, email, icon, bio: '' });
+    return user.data;
+  }
+
+  const getUser = async (email) => {
+    let user = await axios.get(`http://localhost:8080/user/${email}`);
+    return user.data;
+  }
 
   const login = (response) => {
-    console.log(response);
     if (response.accessToken) {
-      // setLoggedIn(true);
-      // setAccessToken(response.accessToken);
-      setMenu()
+      console.log(response);
+      const { name, email, imageUrl } = response.profileObj;
+      addUser(name, email, imageUrl)
+        .then((user) => {
+          window.$user = user;
+          setMenu();
+        })
+        .catch(() => {
+          getUser(email).then((user) => {
+            window.$user = user;
+            setMenu();
+          });
+        });
     }
   }
 
-  // const logout = (response) => {
-  //   setLoggedIn(false);
-  //   setAccessToken('');
-  // }
-
   const handleLoginFailure = (response) => {
-    alert('Failed to log in')
-  }
-
-  const handleLogoutFailure = (response) => {
-    alert('Failed to log out')
+    console.log('Failed to log in')
   }
 
   return (
@@ -39,28 +46,18 @@ const SignUpLogin = ({ setMenu }) => {
         <p style={{ fontSize: 24, color: '#223843', fontWeight: 'bold' }}>Treasure Chest</p>
         <div style={{ marginTop: '30%' }}>
           <div>
-            {/* {isLoggedIn ?
-              <GoogleLogout
-                clientId={CLIENT_ID}
-                buttonText='Logout'
-                onLogoutSuccess={logout}
-                onFailure={handleLogoutFailure}
-              >
-              </GoogleLogout> : */}
-               <GoogleLogin
-                clientId={CLIENT_ID}
-                render={renderProps => (
-                  <Button variant={'success'} onClick={renderProps.onClick} disabled={renderProps.disabled}>Sign In with Google</Button>
-                )}
-                buttonText='Login'
-                isSignedIn={true}
-                onSuccess={login}
-                onFailure={handleLoginFailure}
-                cookiePolicy={'single_host_origin'}
-                responseType='code,token'
-              />
-            {/* } */}
-            {/* {accessToken ? <h5>Your Access Token: <br /><br /> {accessToken}</h5> : null} */}
+            <GoogleLogin
+              clientId={'429212164620-t05aq3o7i59dko6cnsd9d2obp0s8qdrn.apps.googleusercontent.com'}
+              render={renderProps => (
+                <Button variant={'success'} onClick={renderProps.onClick} disabled={renderProps.disabled}>Sign In with Google</Button>
+              )}
+              buttonText='Login'
+              // isSignedIn={true}
+              onSuccess={login}
+              onFailure={handleLoginFailure}
+              cookiePolicy={'single_host_origin'}
+              responseType='code,token'
+            />
           </div>
         </div>
       </div>
