@@ -32,11 +32,17 @@ function App() {
 
   return (
     <Router>
+<<<<<<< HEAD
       <div className="App" styles={{height: '100%'}}>        
        {headerVisible ? <CustomHeader slideMenu={slideMenu} /> : null}
        <main styles={{marginTop: '50px'}}>
        {menuVisible ? <DrawerNav slideMenu={slideMenu} /> : null}
        {redirect ? <Redirect to={{pathname: '/home'}} /> : null }
+=======
+      <div className='App'>
+      {menuVisible ? <DrawerNav /> : null}
+      {redirect ? <Redirect to={{pathname: '/home'}} /> : null }
+>>>>>>> a926d665da0f061ac1403d5f7dda7d185934c18e
         <Switch>
           <Route exact path="/" render={() => (<LoginPage setMenu={setMenu}/>)} />
           <Route exact path="/messages" render={() => (<MessagesPage />)} />
