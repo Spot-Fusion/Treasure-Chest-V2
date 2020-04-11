@@ -2,13 +2,13 @@ import * as React from 'react'
 import { IoIosMenu } from "react-icons/io";
 import { Navbar } from 'react-bootstrap';
 
-function CustomHeader({slideMenu}) {
-  
+function CustomHeader({slideMenu, location}) {
+  let title = location.substr(1,1).toUpperCase() + location.substr(2);
     return (
         <header>
-            <Navbar style={{backgroundColor: '#223843', width: '100%', height: '30px', top: '30px' }}>               
+            <Navbar style={{backgroundColor: '#223843', width: '100%', height: '40px', top: '0px' }}>               
                 <IoIosMenu style={{left: '30px', color: '#F1F3F5'}} size={40} onClick={slideMenu} />   
-                <Navbar.Brand style={{alignSelf: 'center', color: '#F1F3F5'}} >Header</Navbar.Brand>            
+                <Navbar.Brand style={{flex: '1', alignSelf: 'center', color: '#F1F3F5'}} >{title}</Navbar.Brand>            
             </Navbar>
         </header>
     )
