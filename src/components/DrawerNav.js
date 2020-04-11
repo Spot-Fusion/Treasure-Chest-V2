@@ -6,15 +6,15 @@ import {
     IoMdHome,
 } from "react-icons/io";
 import { MdMessage } from 'react-icons/md'
-// import { slide as Menu } from 'react-burger-menu'
-import { Navbar } from 'react-bootstrap';
+import ProfileDrawer from './ProfileDrawer';
 
 function DrawerNav({ slideMenu }) {
     return (
-        <div >
-        <Navbar styles={styles}>
-          <ul>            
-            <li onClick={slideMenu}>
+    <div id="slidenav" className="sidenav" style={styles}>
+      <ProfileDrawer slideMenu={slideMenu}/>
+        <nav>
+          <ul style={{listStyleType: 'none', display: 'flex', flexDirection: 'column', marginLeft: '5px'}}>            
+            <li onClick={slideMenu} style={{marginLeft: '5px'}}>
               <IoMdHome color={'#223843'} size={20} />
               <Link to="/home">Home</Link>
             </li>
@@ -35,7 +35,7 @@ function DrawerNav({ slideMenu }) {
               <Link to="/">LogOut</Link>
             </li>
           </ul>
-        </Navbar>
+        </nav>
         </div>
     )
 }
@@ -43,14 +43,18 @@ function DrawerNav({ slideMenu }) {
 export default DrawerNav
 
 var styles = {  
+ 
     position: 'fixed',
-    zIndex: '200',
-    top: '56px',
+    zIndex: '1',
+    top: '0',
     left: '0',
     backgroundColor: '#F1F3F5',
-    padding: '2.5em 1.5em 0',
+    // padding: '2.5em 1.5em 0',
     height: '100%',
-    width: '75%', 
-    opacity: '100%'
- 
+    width: '250px', 
+    opacity: '1',
+    overflowX: 'hidden',
+    paddingTop: '60px',
+    transition: '0.5s', 
+  
 }
