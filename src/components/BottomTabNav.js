@@ -12,7 +12,7 @@ function BottomTabNav() {
     return (
         <div>
             <Navbar style={{backgroundColor: '#223843', width: '100%', height: '30px', bottom: '0'}}>
-            <ul style={{display: 'flex', flexDirection: 'row', alignContent: 'space-around', listStyleType: 'none'}}>
+            <ul style={{display: 'flex', flexDirection: 'row', flex: '1', listStyleType: 'none'}}>
             <li>
               <IoMdHome color={'#F1F3F5'} size={20} />
               <Link to="/home">Home</Link>
