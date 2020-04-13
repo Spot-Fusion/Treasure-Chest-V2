@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import defaultImg from '../images/ThumbnailImage.png'
+import { IoIosStarOutline } from "react-icons/io";
 
 function DisplayListings(props) {
     const listings = props.listings;
@@ -28,6 +29,7 @@ function DisplayListings(props) {
                             <p style={{marginTop: 15, float: 'left', marginLeft: 15, fontWeight: 'bold'}}>
                                 {`$${secondIndex.price}`}
                             </p>
+                            <IoIosStarOutline color={'#F1F3F5'} size={20} style={{marginTop: 15, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
                     </div>
                 </div>
             );
@@ -51,6 +53,7 @@ function DisplayListings(props) {
                                     <p style={{marginTop: 15, float: 'left', marginLeft: 15, fontWeight: 'bold'}}>
                                         {`$${listing.price}`}
                                     </p>
+                                    <IoIosStarOutline color={'#F1F3F5'} size={20} style={{marginTop: 15, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
                                 </div>
                             </div>
                         </Col>
