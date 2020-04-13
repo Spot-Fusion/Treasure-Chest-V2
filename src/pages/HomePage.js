@@ -12,7 +12,6 @@ function HomePage({ title }) {
     const getAllListings = async () => {
         await axios.get(`http://localhost:8080/listing/`)
         .then(post => {
-            console.log(post.data);
             setListings(post.data);
         })
         .catch(e => console.error(e));
@@ -24,7 +23,7 @@ function HomePage({ title }) {
     
     return (
         <div>
-           <DisplayListings listings={listings}/>
+            <DisplayListings listings={listings}/>
         </div>
     )
 }
