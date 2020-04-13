@@ -13,6 +13,7 @@ import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage'
 import CreateListingPage from './pages/CreateListingPage'
 import ChatPage from './pages/ChatPage'
+import ShowListingPage from './pages/ShowListingPage'
 import DrawerNav from './components/DrawerNav'
 import CustomHeader from './components/CustomHeader'
 import BottomTabNav from './components/BottomTabNav';
@@ -53,7 +54,8 @@ function App() {
           <Route exact path="/home" render={() => (<HomePage title={title}/>)} /> 
           <Route exact path="/profile" render={() => (<ProfilePage title={title}/>)} /> 
           <Route exact path="/createlisting" render={() => (<CreateListingPage title={title}/>)} />
-          <Route exact path="/chat" render={() => (<ChatPage title={title}/>)} />           
+          <Route exact path="/chat" render={() => (<ChatPage title={title}/>)} />
+          <Route exact path="/showlisting" render={() => (<ShowListingPage title={title}/>)} />
         </Switch>
        </main>
        {footerVisible ? <BottomTabNav /> : null}
