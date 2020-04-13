@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import {useLocation} from 'react-router-dom'
+import DisplayListings from '../components/DisplayListings'
 
-function HomePage() {
+function HomePage({ title }) {
     const [listings, setListings] = React.useState([])
+
+    let location = useLocation();
+    title(location.pathname);
 
     const getAllListings = async () => {
         await axios.get(`http://localhost:8080/listing/`)
@@ -19,7 +24,7 @@ function HomePage() {
     
     return (
         <div>
-            D HOME
+           <DisplayListings listings={listings}/>
         </div>
     )
 }
