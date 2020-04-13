@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {useLocation} from 'react-router-dom'
 import axios from 'axios'
+import ImagePicker from '../components/ImagePicker';
+import { BrowserRouter as Router, Redirect, Link } from "react-router-dom";
    
 function CreateListingPage({title}) {
    const [idSeller, setIdSeller] = React.useState(window.$user.id);
@@ -10,8 +12,9 @@ function CreateListingPage({title}) {
    const [price, setPrice] = React.useState(0);
    const [zipcode, setZipcode] = React.useState(0);
    const [negotiable, setNegotialbe] = React.useState(0);
-   const [image, setImage] = React.useState('');
+   const [image, setImage] = React.useState('https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png');
    const [idListing, setIdListing] = React.useState(0);
+   const [redirect, setRedirect] = React.useState(false);
 
    const styles = {
      input: {
@@ -27,7 +30,7 @@ function CreateListingPage({title}) {
    const addImage = async (id, image) => {
     await axios.post(`http://${url}:8080/listing/${id}`, { image })
     .then(body => {
-      console.log(body.data);
+      console.log(body.data);     
     //   navigation.navigate('ShowListing', { idListing: id });
     })
     .catch(e => console.error(e))
@@ -50,25 +53,31 @@ function CreateListingPage({title}) {
 
   const handleSubmit = (evt) => {
       evt.preventDefault();
-      alert(`${name} ${description} $${price} ${zipcode} ${negotiable}`);
+      alert(`${name} ${description} $${price} ${zipcode} ${negotiable} ${image}`);
       setName('');
       setDescription('');
       setPrice(0);
       setZipcode(0);
       setNegotialbe(0);
+      setImage('https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png');
+      setRedirect(true)
+      // <Redirect to={{pathname: '/showlisting', state: { idListing }}} />
     }
 
     let location = useLocation();
-    title(location.pathname);
-
-    console.log(window.$user); 
+    title('Create Listing');
 
     return (
-        <div>
-            <h2>Create Listing</h2>
+        <div style={{margin: 10}}>
+        <Router>
+         {redirect ? <Redirect to={{pathname: '/showlisting', state: { idListing },}} /> : null} 
+         </Router>
+            <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
             <img alt={"http://pngimg.com/uploads/treasure_chest/treasure_chest_PNG108.png"} 
           style={{ alignSelf: 'center', height: 200, width: 200 }}
           src={ image } />
+          <ImagePicker chooseImage={chooseImage} style={{justifySelf: 'center'}}/>
+          </div>
           <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
            <label style={styles.label}>Name: {name}</label>
           <input   
@@ -105,7 +114,7 @@ function CreateListingPage({title}) {
             style={styles.input}
             required onChange={(e) => setNegotialbe(negotiable > 0 ? 0 : 1)} />
         
-        <input type="submit" value="Create Listing" />
+        <input type="submit" value="Create" style={{backgroundColor: '#3FC184', color: '#F1F3F5', fontSize: 20}}/>
       </form>
         </div>
     )
