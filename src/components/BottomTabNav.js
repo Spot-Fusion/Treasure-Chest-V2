@@ -11,19 +11,21 @@ import { Navbar } from 'react-bootstrap';
 function BottomTabNav() {
     return (
         <div>
-            <Navbar style={{backgroundColor: '#223843', width: '100%', height: '30px', bottom: '0'}}>
-            <ul style={{display: 'flex', flexDirection: 'row', flex: '1', listStyleType: 'none'}}>
-            <li>
-              <IoMdHome color={'#F1F3F5'} size={20} />
-              <Link to="/home">Home</Link>
+            <Navbar style={{backgroundColor: '#223843', width: '100%', height: '40px', bottom: '0'}}>
+            <ul style={{display: 'flex', 
+            flexDirection: 'row', 
+            flex: '1', 
+            listStyleType: 'none', 
+            justifyContent: 'space-around', 
+            }}>
+            <li>              
+              <Link to="/home"><IoMdHome color={'#F1F3F5'} size={30} style={{marginTop: 10}} /></Link>
             </li>
-            <li>
-              <IoMdAddCircle color={'#F1F3F5'} size={20} />
-              <Link to="/createlisting">Create Listing</Link>
+            <li>              
+              <Link to="/createlisting"><IoMdAddCircleOutline color={'#F1F3F5'} size={30} style={{marginTop: 10}} /></Link>
             </li>
-            <li>
-              <MdMessage color={'#F1F3F5'} size={20} />
-              <Link to="/messages">Messages</Link>
+            <li>              
+              <Link to="/messages"><MdMessage color={'#F1F3F5'} size={30} style={{marginTop: 10}} /></Link>
             </li>
             </ul>
             </Navbar>
