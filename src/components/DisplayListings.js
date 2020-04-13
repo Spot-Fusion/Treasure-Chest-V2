@@ -7,7 +7,6 @@ import defaultImg from '../images/ThumbnailImage.png'
 
 function DisplayListings(props) {
     const listings = props.listings;
-    console.log(props.listings);
 
     const renderListing = (listing, index) => {
         let secondListing = <br></br>
@@ -18,6 +17,18 @@ function DisplayListings(props) {
             secondListing = (
                 <div>
                     <img style={{height: 175, width: 175}} src={secondIndex.image} alt={defaultImg}/>
+                    <div style={{
+                        position: 'absolute', 
+                        opacity: .65,
+                        bottom: 0, 
+                        width: '85%',
+                        height: '30%',
+                        backgroundColor: '#223843', 
+                        color: '#F1F3F5', }}>
+                            <p style={{marginTop: 15, float: 'left', marginLeft: 15, fontWeight: 'bold'}}>
+                                {`$${secondIndex.price}`}
+                            </p>
+                    </div>
                 </div>
             );
         }
@@ -28,7 +39,19 @@ function DisplayListings(props) {
                     <Row>
                         <Col>
                             <div>
-                                <img style={{height: 175, width: 175}} src={listing.image} alt={defaultImg}/>               
+                                <img style={{height: 175, width: 175}} src={listing.image} alt={defaultImg}/>
+                                <div style={{
+                                    position: 'absolute', 
+                                    opacity: .65,
+                                    bottom: 0, 
+                                    width: '85%',
+                                    height: '30%',
+                                    backgroundColor: '#223843', 
+                                    color: '#F1F3F5', }}>
+                                    <p style={{marginTop: 15, float: 'left', marginLeft: 15, fontWeight: 'bold'}}>
+                                        {`$${listing.price}`}
+                                    </p>
+                                </div>
                             </div>
                         </Col>
                         <Col>
