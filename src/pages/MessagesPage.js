@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom';
 
 const MessagesPage = () => {
   const [users, setUsers] = React.useState([]);
+  const id = 13 || window.$user.id;
 
   const getUsers = async () => {
-    const id = 13 || window.$user.id;
     let users = await axios.get(`http://localhost:8080/message/users/${id}`)
     setUsers(users.data);
   }
 
   React.useEffect(() => {
     getUsers();
-    // let intId = setInterval(() => { getUsers() }, 1000);
-    // return () => clearInterval(intId);
+    let intId = setInterval(() => { getUsers() }, 1000);
+    return () => clearInterval(intId);
   }, []);
 
   return (
@@ -22,7 +22,7 @@ const MessagesPage = () => {
       <h1>Messages</h1>
       <div>
         {!!users.length && users.map((user) => (
-          <Link to={{ pathname: "/chat", state: { id_user: user.email} }} style={style.link} key={user.id_message}>
+          <Link to={{ pathname: "/chat", state: { id_recipient: user.id_sender === id ? user.id_recipient : user.id_sender} }} style={style.link} key={user.id_message}>
             <div>
               <img src={user.icon} alt='' style={style.icon} />
               <div style={style.name}>{user.name}</div>
@@ -31,7 +31,6 @@ const MessagesPage = () => {
               <hr />
             </div>
           </Link>
-
         ))}
       </div>
     </div>
