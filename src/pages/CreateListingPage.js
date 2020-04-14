@@ -44,8 +44,9 @@ function CreateListingPage({title}) {
     await axios.get(`http://${url}:8080/listing/${id}`)
       .then(post => {
         console.log(post);
+        let list  = post.data;
         setListing(post.data);
-        history.push('/showlisting', {listing}) // <<< here is the nav to the show listing page
+        history.push('/showlisting', {listing: list}) // <<< here is the nav to the show listing page
       })
       .catch(e => console.error(e));
   }
