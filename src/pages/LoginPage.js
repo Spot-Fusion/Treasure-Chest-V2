@@ -19,7 +19,6 @@ const SignUpLogin = ({ setMenu }) => {
 
   const login = (response) => {
     if (response.accessToken) {
-      console.log(response);
       const { name, email, imageUrl } = response.profileObj;
       addUser(name, email, imageUrl)
         .then((user) => {

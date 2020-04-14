@@ -3,7 +3,7 @@ import { IoIosMenu } from "react-icons/io";
 import { Navbar } from 'react-bootstrap';
 
 function CustomHeader({slideMenu, location}) {
-  let title = location.substr(1,1).toUpperCase() + location.substr(2);
+  let title = location/*.substr(1,1).toUpperCase() + location.substr(2)*/;
     return (
         <header>
             <Navbar style={{backgroundColor: '#223843', width: '100%', height: '40px', top: '0px' }}>               

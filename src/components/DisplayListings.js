@@ -1,10 +1,10 @@
 import React from 'react'
-import FlatList from 'flatlist-react';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import defaultImg from '../images/ThumbnailImage.png'
 import { IoIosStarOutline } from "react-icons/io";
+import { Link } from 'react-router-dom'
 
 function DisplayListings(props) {
     const listings = props.listings;
@@ -16,6 +16,12 @@ function DisplayListings(props) {
         if(index + 1 <= listings.length - 1){
             let secondIndex = listings[index + 1];
             secondListing = (
+                <Link to={{
+                    pathname: '/showlisting',
+                    state: {
+                        listing: secondIndex,
+                    },
+                }}>
                 <div>
                     <img style={{height: 175, width: 175}} src={secondIndex.image} alt={defaultImg}/>
                     <div style={{
@@ -32,6 +38,7 @@ function DisplayListings(props) {
                             <IoIosStarOutline color={'#F1F3F5'} size={20} style={{marginTop: 15, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
                     </div>
                 </div>
+                </Link>
             );
         }
 
@@ -40,22 +47,29 @@ function DisplayListings(props) {
                 <Container>
                     <Row>
                         <Col>
-                            <div>
-                                <img style={{height: 175, width: 175}} src={listing.image} alt={defaultImg}/>
-                                <div style={{
-                                    position: 'absolute', 
-                                    opacity: .65,
-                                    bottom: 0, 
-                                    width: '85%',
-                                    height: '30%',
-                                    backgroundColor: '#223843', 
-                                    color: '#F1F3F5', }}>
-                                    <p style={{marginTop: 15, float: 'left', marginLeft: 15, fontWeight: 'bold'}}>
-                                        {`$${listing.price}`}
-                                    </p>
-                                    <IoIosStarOutline color={'#F1F3F5'} size={20} style={{marginTop: 15, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
+                            <Link to={{
+                                pathname: '/showlisting',
+                                state: {
+                                    listing: listing,
+                                },
+                            }}>
+                                <div>
+                                    <img style={{height: 175, width: 175}} src={listing.image} alt={defaultImg}/>
+                                    <div style={{
+                                        position: 'absolute', 
+                                        opacity: .65,
+                                        bottom: 0, 
+                                        width: '85%',
+                                        height: '30%',
+                                        backgroundColor: '#223843', 
+                                        color: '#F1F3F5', }}>
+                                        <p style={{marginTop: 15, float: 'left', marginLeft: 15, fontWeight: 'bold'}}>
+                                            {`$${listing.price}`}
+                                        </p>
+                                        <IoIosStarOutline color={'#F1F3F5'} size={20} style={{marginTop: 15, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         </Col>
                         <Col>
                             {secondListing}
