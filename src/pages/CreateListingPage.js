@@ -1,11 +1,13 @@
 import * as React from 'react'
-import {useLocation} from 'react-router-dom'
+import {useLocation, useHistory} from 'react-router-dom'
 import axios from 'axios'
 import ImagePicker from '../components/ImagePicker';
 import { BrowserRouter as Router, Redirect, Link } from "react-router-dom";
 import defaultImg from '../images/ThumbnailImage.png'
 
 function CreateListingPage({title}) {
+  let history = useHistory();
+  // console.log(history.push);
   const [idSeller, setIdSeller] = React.useState(window.$user.id);
   const [idCategory, setIdCategory] = React.useState(1);
   const [name, setName] = React.useState('');
@@ -14,7 +16,17 @@ function CreateListingPage({title}) {
   const [zipcode, setZipcode] = React.useState(0);
   const [negotiable, setNegotialbe] = React.useState(0);
   const [image, setImage] = React.useState(defaultImg);
-  const [listing, setListing] = React.useState({});
+  const [listing, setListing] = React.useState({id: 42,
+      seller: "Billy Golden-Calf",
+      category: "Shoes",
+      created_at: "2020-03-30T01:29:30.456Z",
+      name: "Nike Air Zoom Pegasus",
+      description: "Color: Black↵Size 8",
+      price: 85,
+      zipcode: 70810,
+      negotiable: 1,
+      archived: 0,
+      image: "http://res.cloudinary.com/tbgarza2/image/upload/v1585513715/tppsrl7tj9qwtggqroqs.jpg"});
   const [redirect, setRedirect] = React.useState(false);
 
   const styles = {
@@ -27,6 +39,15 @@ function CreateListingPage({title}) {
   }
 
   let url = 'localhost';
+
+  const getListing = async (id) => {
+    await axios.get(`http://${url}:8080/listing/${id}`)
+      .then(post => {
+        setListing(post.data)
+        history.push('/showlisting', {listing}) // <<< here is the nav to the show listing page
+      })
+      .catch(e => console.error(e));
+  }
 
   const addImage = async (id, image) => {
     await axios.post(`http://${url}:8080/listing/${id}`, { image })
@@ -44,13 +65,7 @@ function CreateListingPage({title}) {
       addImage(body.data, image)
     })
     .catch(e => console.error(e));
-  }
-
-  const getListing = async (id) => {
-    await axios.get(`http://${url}:8080/listing/${id}`)
-      .then(post => setListing(post.data))
-      .catch(e => console.error(e));
-  }
+  } 
 
   const chooseImage = (img) => {
     setImage('' + img);
@@ -59,15 +74,16 @@ function CreateListingPage({title}) {
 
   const handleSubmit = (evt) => {
       evt.preventDefault();
-      alert(`${name} ${description} $${price} ${zipcode} ${negotiable} ${image}`);
+      // alert(`${name} ${description} $${price} ${zipcode} ${negotiable} ${image}`);
+      addPost(name, description, price, zipcode, negotiable)
       setName('');
       setDescription('');
       setPrice(0);
       setZipcode(0);
       setNegotialbe(0);
       setImage('https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png');
-      setRedirect(true)
-      // <Redirect to={{pathname: '/showlisting', state: { idListing }}} />
+      setRedirect(true)      
+ 
     }
 
     let location = useLocation();
@@ -85,27 +101,27 @@ function CreateListingPage({title}) {
           <div style={{float: 'center'}}><ImagePicker chooseImage={chooseImage} style={{float: 'center'}}/></div>
           </div>
           <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
-          <label style={styles.label}>Name: {name}</label>
+          <label style={styles.label}>Name: </label>
           <input   
             type="text"
             value={name}
             style={styles.input}
             required onChange={(e) => setName(e.target.value)}
             placeholder='Input Name...' />
-          <label style={styles.label}>Description: {description}</label>
+          <label style={styles.label}>Description: </label>
           <textarea
             value={description} 
             style={styles.input}
             required onChange={(e) => setDescription(e.target.value)} 
             placeholder='Input Description...' />
-            <label style={styles.label}>Price: ${price}</label>
+            <label style={styles.label}>Price: </label>
           <input
             type="number"
             value={price}
             style={styles.input}
             required onChange={(e) => setPrice(e.target.value)}
             placeholder='Input Price...' />
-            <label style={styles.label}>Zipcode: {zipcode}</label>
+            <label style={styles.label}>Zipcode: </label>
           <input
             type="number"
             value={zipcode}
@@ -113,7 +129,6 @@ function CreateListingPage({title}) {
             required onChange={(e) => setZipcode(e.target.value)}
             placeholder='Input Zipcode...' />
         <input type="submit" value="Create" style={{backgroundColor: '#3FC184', color: '#F1F3F5', fontSize: 20, marginTop: 25}}/>
-        {/* </Link> */}
       </form>
         </div>
     )
