@@ -11,7 +11,7 @@ import axios from 'axios'
 
 function ShowListingPage({title}) {
     let location = useLocation();
-    title(location.pathname);
+    title('Listing');
     const { listing } = location.state;
     const [favorited, setFavorited] = React.useState(true);
     const [favBtnColor, setBtnColor] = React.useState('success');

@@ -7,7 +7,7 @@ function HomePage({ title }) {
     const [listings, setListings] = React.useState([])
 
     let location = useLocation();
-    title(location.pathname);
+    title('Home');
 
     const getAllListings = async () => {
         await axios.get(`http://localhost:8080/listing/`)
