@@ -2,12 +2,11 @@ import * as React from 'react'
 import Button from 'react-bootstrap/Button';
 import ImagePicker from '../components/ImagePicker';
 import axios from 'axios'
-import {useLocation} from 'react-router-dom'
+import {useLocation, Link} from 'react-router-dom'
 
 function ProfilePage({ title }) {
     let location = useLocation();
     title("Profile");
-    console.log(window.$user);
     const [userName, setUserName] = React.useState(window.$user.name);
     const [description, setDescription] = React.useState('');
     const [image, setImage] = React.useState(window.$user.icon);
@@ -62,7 +61,7 @@ function ProfilePage({ title }) {
      console.log(`This is chosen: ${img}`);
    };
  
-   let idUser = location.state === undefined ? window.$user.id : location.state.id;
+   let idUser = location.state === undefined ? window.$user.id : location.state;
    React.useEffect(() =>{
      getProfile(idUser)
      getSellListings(idUser)
@@ -71,15 +70,20 @@ function ProfilePage({ title }) {
    }, [])
  
     return (
-        <div>
-           <div style={{flexDirection: 'row'}}>
+        <div style={{paddingTop: 40}}>
+           <div style={{display: 'flex', flexDirection: 'row'}}>
         <img alt=""
           style={{ margin: 30, height: 150, width: 150, borderRadius: 75, resizeMode: "contain" }}
           src={ image }
         />
         <div>
           {edit ? <ImagePicker chooseImage={chooseImage}/> : null}
+          
           <h4 style={{marginVertical: 25 ,fontSize: 24}} >{userName}</h4>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <Link to="/users" style={{fontSize: 14, color: 'black'}} >{`${idUser} Following`}</Link>
+          <Link to="/users" style={{fontSize: 14, color: 'black'}} >{`${idUser} Followers`}</Link>
+          </div>
           { edit ? <input
             type="text"
             value={userName}
@@ -87,7 +91,7 @@ function ProfilePage({ title }) {
             onChange={(e) => setUserName(e.target.value)}
             placeholder='Input User Name...'
           /> : null}
-          {location.state ? 
+          {location.state !== window.$user.id && location.state ? 
             <Button style={{width: 125,
               height: 35,
               borderRadius: 5,
@@ -115,7 +119,7 @@ function ProfilePage({ title }) {
             onChange={(e) => setDescription(e.target.value)}
             placeholder='Input Description...'
           /> : null}          
-          {edit ? <Button onClick={() => { 
+          {edit ? <Button style={{backgroundColor: '#3FC184'}} onClick={() => { 
             patchProfile(idUser, userName, description, image);
             setEdit(false);
           }}>

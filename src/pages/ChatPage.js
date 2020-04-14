@@ -11,8 +11,8 @@ const ChatPage = ({ title }) => {
   const [input, setInput] = React.useState('');
   const [menuVisible, setMenuVisible] = React.useState(false);
   const location = useLocation();
-  // const { id, icon, name } = window.$user;
-  const id = 13, name = 'Christopher LeBoeuf', icon = 'https://lh3.googleusercontent.com/a-/AOh14GhytysnVGtyIsffBFPDNYjIBvz-hL6lrUN1rB_S=s96-c'
+  const { id, icon, name } = window.$user;
+  // const id = 13, name = 'Christopher LeBoeuf', icon = 'https://lh3.googleusercontent.com/a-/AOh14GhytysnVGtyIsffBFPDNYjIBvz-hL6lrUN1rB_S=s96-c'
   const { id_recipient, recipient_icon, recipient_name } = location.state;
 
   const nameShortener = (name) => {
