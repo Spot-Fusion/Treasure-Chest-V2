@@ -2,11 +2,12 @@ import * as React from 'react'
 import Button from 'react-bootstrap/Button';
 import ImagePicker from '../components/ImagePicker';
 import axios from 'axios'
-import {useLocation, Link} from 'react-router-dom'
+import {useLocation, Link, useHistory} from 'react-router-dom'
 import DisplayListings from '../components/DisplayListings';
 
 function ProfilePage({ title }) {
     let location = useLocation();
+    let history = useHistory();
     title("Profile");
     const [userName, setUserName] = React.useState(window.$user.name);
     const [description, setDescription] = React.useState('');
@@ -98,7 +99,7 @@ function ProfilePage({ title }) {
               borderRadius: 5,
               backgroundColor: '#3FC184',
               marginRight: 15,}} 
-              onClick={() => alert('Todo') /*to={{ pathname: '/chat', state: { id_recipient: location.state.id },}}*/} >
+              onClick={() => history.goBack() /*to={{ pathname: '/chat', state: { id_recipient: location.state.id },}}*/} >
                 Message
                 </Button>
               : 

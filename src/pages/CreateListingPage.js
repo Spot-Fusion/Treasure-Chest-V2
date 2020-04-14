@@ -43,7 +43,8 @@ function CreateListingPage({title}) {
   const getListing = async (id) => {
     await axios.get(`http://${url}:8080/listing/${id}`)
       .then(post => {
-        setListing(post.data)
+        console.log(post.data);
+        setListing(post.data);
         history.push('/showlisting', {listing}) // <<< here is the nav to the show listing page
       })
       .catch(e => console.error(e));
@@ -81,9 +82,8 @@ function CreateListingPage({title}) {
       setPrice(0);
       setZipcode(0);
       setNegotialbe(0);
-      setImage('https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png');
-      setRedirect(true)      
- 
+      setImage(defaultImg);
+      setRedirect(true) 
     }
 
     let location = useLocation();
@@ -91,14 +91,11 @@ function CreateListingPage({title}) {
 
     return (
         <div style={{margin: 10, marginTop: 55}}>
-        {/* <Router>
-        {redirect ? <Redirect to={{pathname: '/showlisting', state: { idListing },}} /> : null} 
-         </Router> */}
             <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
             <img alt={defaultImg} 
           style={{ alignSelf: 'center', height: 200, width: 200, marginBottom: 20 }}
           src={ image } />
-          <div style={{float: 'center'}}><ImagePicker chooseImage={chooseImage} style={{float: 'center'}}/></div>
+          <div style={{float: 'center'}}><ImagePicker chooseImage={chooseImage} /></div>
           </div>
           <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
           <label style={styles.label}>Name: </label>
