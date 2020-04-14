@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import ImagePicker from '../components/ImagePicker';
 import axios from 'axios'
 import {useLocation, Link} from 'react-router-dom'
+import DisplayListings from '../components/DisplayListings';
 
 function ProfilePage({ title }) {
     let location = useLocation();
@@ -68,7 +69,7 @@ function ProfilePage({ title }) {
      getSoldListings(idUser)
      getFavListings(idUser)
    }, [])
- 
+   let listings = sellList;
     return (
         <div style={{paddingTop: 40}}>
            <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -126,6 +127,14 @@ function ProfilePage({ title }) {
             Update Profile
           </Button> : null}
       </div> 
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}} >
+          <p onClick={() => setShow(0)}>Selling</p>
+          <p onClick={() => setShow(1)}>Sold</p>
+          <p onClick={() => setShow(2)}>Favorites</p>
+      </div>
+      {show === 0 ? <DisplayListings listings={sellList} /> : null}
+      {show === 1 ? <DisplayListings listings={soldList} /> : null}
+      {show === 2 ? <DisplayListings listings={favList} /> : null}
         </div>
     )
 }
