@@ -2,7 +2,6 @@ import * as React from 'react';
 import axios from 'axios';
 import TextClamp from 'react-string-clamp';
 import { Link } from 'react-router-dom'
-import { MdVerticalAlignTop } from 'react-icons/md';
 
 const MessagesPage = ({ title }) => {
   title("Messages");
