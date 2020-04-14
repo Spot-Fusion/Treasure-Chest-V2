@@ -8,6 +8,7 @@ import {
 } from 'react-static-google-map';
 import { googlKey } from '../config.js'
 import axios from 'axios'
+import { MdMessage } from 'react-icons/md'
 
 function ShowListingPage({title}) {
     let location = useLocation();
@@ -66,8 +67,8 @@ function ShowListingPage({title}) {
                 <p style={{float:'right', fontSize: 24, marginRight: 15}}>$100</p>
             </div>
             <div style={{marginTop: 90}}>
-                <Button onClick={() => {favoriteListing(idListing)}} style={{float: 'left', marginLeft: 75, width: 120}} variant={favBtnColor}>{favBtnText}</Button>
-                <Button style={{float: 'right', marginRight: 75, width: 120}} variant={'success'}>Message</Button>
+                <Button onClick={() => {favoriteListing(idListing)}} style={{float: 'left', marginLeft: 75, width: 120}} variant={favBtnColor}>{`${favBtnText} ☆`}</Button>
+                <Button style={{float: 'right', marginRight: 75, width: 120}} variant={'success'}>Message <MdMessage color={'white'} size={20}/></Button>
             </div>
             <p style={{float: 'left', marginTop: 25, marginLeft: 25, fontSize: 18}}>{listing.description}</p>
             <div style={{marginTop: 25, marginBottom: 25}}>
