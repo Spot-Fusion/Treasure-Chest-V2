@@ -7,7 +7,7 @@ import { MdVerticalAlignTop } from 'react-icons/md';
 const MessagesPage = ({ title }) => {
   title("Messages");
   const [users, setUsers] = React.useState([]);
-  const id = 13 || window.$user.id;
+  const id = window.$user.id;
 
   const dConvert = (date) => {
     const newDate = new Date();
