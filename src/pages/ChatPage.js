@@ -1,15 +1,18 @@
 import React from 'react';
 import axios from 'axios';
+import BottomTabNav from '../components/BottomTabNav';
 import { Nav, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { useLocation, Link, NavLink } from 'react-router-dom'
-// import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const ChatPage = ({ title }) => {
+  title("Chat");
   const [messages, setMessages] = React.useState([]);
   const [input, setInput] = React.useState('');
+  const [menuVisible, setMenuVisible] = React.useState(false);
   const location = useLocation();
-  const { id, icon, name } = window.$user;
-  // const id = 13, name = 'Christopher LeBoeuf', icon = 'https://lh3.googleusercontent.com/a-/AOh14GhytysnVGtyIsffBFPDNYjIBvz-hL6lrUN1rB_S=s96-c'
+  // const { id, icon, name } = window.$user;
+  const id = 13, name = 'Christopher LeBoeuf', icon = 'https://lh3.googleusercontent.com/a-/AOh14GhytysnVGtyIsffBFPDNYjIBvz-hL6lrUN1rB_S=s96-c'
   const { id_recipient, recipient_icon, recipient_name } = location.state;
 
   const nameShortener = (name) => {
@@ -28,47 +31,51 @@ const ChatPage = ({ title }) => {
   }
 
   const profiles = () => (
-    <div style={style.link}>
-      <Nav defaultActiveKey='/profile' as='ul' justify='true'>
-        <Nav.Item as='li'>
-          <Nav.Link style={style.link} activeStyle={style.link}  as={NavLink} to={{ pathname: '/profile', state: id_recipient }}>
-            <img src={recipient_icon} alt='' style={style.icon} />
-            {nameShortener(recipient_name)}
-          </Nav.Link>
-        </Nav.Item>
-        <Nav.Item as='li'>
-          <Nav.Link style={style.link} activeStyle={style.link} as={NavLink} to={{ pathname: '/profile', state: id }}>
-            <img src={icon} alt='' style={style.icon} />
-            {nameShortener(name)}
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
+    <div>
+      <div style={style.navBar}>
+        <Nav defaultActiveKey='/profile' as='ul' justify='true'>
+          <Nav.Item as='li'>
+            <Nav.Link style={style.link} activeStyle={style.link} as={NavLink} to={{ pathname: '/profile', state: id_recipient }}>
+              <img src={recipient_icon} alt='' style={style.icon} />
+              {nameShortener(recipient_name)}
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item as='li'>
+            <Nav.Link style={style.link} activeStyle={style.link} as={NavLink} to={{ pathname: '/profile', state: id }}>
+              <img src={icon} alt='' style={style.icon} />
+              {nameShortener(name)}
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </div>
+      {/* <BottomTabNav /> */}
     </div>
   )
 
   React.useEffect(() => {
     getMessages();
+    window.scrollTo(0,0);
     // let intId = setInterval(() => { getMessages() }, 1000);
     // return () => clearInterval(intId);
   }, []);
 
   return (
     <div style={style.messages}>
-      {profiles()}
-      <div>
-        {!!messages.length && messages.map((message) => (
-          <div key={message.id_message}>
-            <div>{message.text}</div>
-          </div>
-        ))}
+        {profiles()}
+        <div>
+          {!!messages.length && messages.map((message) => (
+            <div key={message.id_message}>
+              <div style={message.id_sender === id ? style.you : style.recipient}>{message.text}</div>
+            </div>
+          ))}
+        </div>
+        <div style={style.chatArea}>
+          <InputGroup style={style.inputGroup}>
+            <FormControl style={style.formControl} value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' ? sendMessage() : null} />
+            <Button style={style.sendButton} onClick={() => sendMessage()}>Send</Button>
+          </InputGroup>
+        </div>
       </div>
-      <div style={style.messageArea}>
-        <InputGroup style={style.inputGroup}>
-          <FormControl style={style.formControl} onChange={(e) => setInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' ? sendMessage() : null} />
-          <Button style={style.sendButton} onClick={() => sendMessage()}>Send</Button>
-        </InputGroup>
-      </div>
-    </div>
   )
 }
 
@@ -81,19 +88,35 @@ const style = {
     borderRadius: '50%',
   },
 
+  navBar: {
+    position: 'fixed',
+    width: '100%',
+    top: '40px',
+    zIndex: '1000'
+  },
+
   link: {
     textDecoration: 'none',
     color: 'black',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    position: 'relative',
+    float: 'top'
   },
 
   messages: {
-    backgroundColor: '#F1F3F5'
+    backgroundColor: '#F1F3F5',
+    position: 'relative',
+    overflow: 'hidden',
+    padding: '100px 0px 90px',
   },
 
-  messageArea: {
+  chatArea: {
     backgroundColor: '#D8D8D8',
     padding: '3px 8px 3px 8px',
+    position: 'fixed',
+    width: '100%',
+    bottom: '40px',
+    zIndex: '1000'
   },
 
   sendButton: {
@@ -105,15 +128,33 @@ const style = {
   formControl: {
     margin: 'auto',
     height: '95%',
-    borderRadius: '4px'
+    borderRadius: '4px',
   },
 
   you: {
-
+    width: '200px',
+    margin: '5px 10px 5px',
+    borderRadius: '10px 10px 0px 10px',
+    background: '#3EC184',
+    padding: '10px',
+    textAlign: 'left',
+    color: 'white',
+    fontFamily: 'arial',
+    position: 'relative',
+    float: 'right',
   },
 
-  messagedUser: {
-
+  recipient: {
+    width: '200px',
+    margin: '5px 10px 5px',
+    borderRadius: '10px 10px 10px 0px',
+    backgroundColor: '#DCDDDF',
+    padding: '10px',
+    textAlign: 'left',
+    color: 'black',
+    fontFamily: 'arial',
+    position: 'relative',
+    float: 'left'
   }
 }
 
