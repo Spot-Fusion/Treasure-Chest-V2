@@ -2,6 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import TextClamp from 'react-string-clamp';
 import { Link } from 'react-router-dom'
+import { MdVerticalAlignTop } from 'react-icons/md';
 
 const MessagesPage = ({ title }) => {
   title("Messages");
@@ -46,7 +47,7 @@ const MessagesPage = ({ title }) => {
           let date = dConvert(user.last_sent_at)
           const time = tConvert(user.last_sent_at);
           return (
-            <div key={user.id_message}>
+            <div key={user.id_message} style={style.user}>
               <Link to={{ pathname: "/chat", state: { id_recipient: user.id_sender === id ? user.id_recipient : user.id_sender, recipient_icon: user.icon, recipient_name: user.name } }} style={style.link}>
                 <div>
                   <div>
@@ -65,7 +66,7 @@ const MessagesPage = ({ title }) => {
                 </div>
                 <br />
               </Link>
-              <br />
+              <hr />
             </div>
           )
         })}
@@ -82,9 +83,15 @@ const style = {
     backgroundColor: '#F1F3F5',
   },
 
+  user: {
+    lineHeight: '0px',
+    padding: '6px',
+  },
+
   link: {
     textDecoration: 'none',
     color: 'black',
+    lineHeight: 'normal'
   },
 
   icon: {
@@ -111,7 +118,7 @@ const style = {
     textAlign: 'left',
     left: '30px',
     top: '5px',
-    width: '360px',
+    width: '380px',
   },
 
   date: {
