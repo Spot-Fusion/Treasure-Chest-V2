@@ -132,9 +132,11 @@ function ProfilePage({ title }) {
           <p onClick={() => setShow(1)}>Sold</p>
           <p onClick={() => setShow(2)}>Favorites</p>
       </div>
-      {show === 0 ? <DisplayListings listings={sellList} /> : null}
-      {show === 1 ? <DisplayListings listings={soldList} /> : null}
-      {show === 2 ? <DisplayListings listings={favList} /> : null}
+      <div style={{marginBottom: 55}}>
+        {show === 0 ? <DisplayListings listings={sellList} /> : null}
+        {show === 1 ? <DisplayListings listings={soldList} /> : null}
+        {show === 2 ? <DisplayListings listings={favList} /> : null}
+      </div>
         </div>
     )
 }
