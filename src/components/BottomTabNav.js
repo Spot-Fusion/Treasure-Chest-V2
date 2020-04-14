@@ -11,7 +11,7 @@ import { Navbar } from 'react-bootstrap';
 function BottomTabNav() {
     return (
         <div>
-            <Navbar style={{ position: 'fixed', backgroundColor: '#223843', width: '100%', height: '40px', bottom: '0'}}>
+        <Navbar style={{ position: 'fixed', backgroundColor: '#223843', width: '100%', height: '40px', bottom: '0', zIndex: '1000'}}>
             <ul style={{display: 'flex', 
             flexDirection: 'row', 
             flex: '1', 

@@ -1,12 +1,33 @@
 import * as React from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
+import TextClamp from 'react-string-clamp';
+import { Link } from 'react-router-dom'
 
-const MessagesPage = ({title}) => {
+const MessagesPage = ({ title }) => {
   title("Messages");
   const [users, setUsers] = React.useState([]);
-  const id = 13 || window.$user.id;
+  const id = window.$user.id;
+
+  const dConvert = (date) => {
+    const newDate = new Date();
+    date = date.replace('T', ' ').replace('Z', '').split('.')[0].split(' ')[0].split('-');
+    date[1] = newDate.getDate();
+    date = [...date.filter(e => e !== date[0]), date[0]].join('/');
+    return date
+  }
+
+  const tConvert = (time) => {
+    time = time.replace('T', ' ').replace('Z', '').split('.')[0].split(' ')[1];
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+    if (time.length > 1) {
+      time = time.slice(1);
+      time[0] = time[0] >= 10 ? time[0] -= 10 : time[0] += 2;
+      time[5] = +time[0] < 12 ? ' AM' : ' PM';
+      time[0] = +time[0] % 12 || 12;
+    }
+    time.splice(-3, 1);
+    return time
+  }
 
   React.useEffect(() => {
     const getUsers = async () => {
@@ -14,72 +35,97 @@ const MessagesPage = ({title}) => {
       setUsers(users.data);
     }
     getUsers();
-    let intId = setInterval(() => { getUsers() }, 1000);
+    let intId = setInterval(() => { getUsers() }, 2000);
     return () => clearInterval(intId);
   }, [id]);
 
   return (
     <div>
-      <div>
-        {!!users.length && users.map((user) => (
-          <Link to={{ pathname: "/chat", state: { id_recipient: user.id_sender === id ? user.id_recipient : user.id_sender, recipient_icon: user.icon, recipient_name: user.name } }} style={style.link} key={user.id_message}>
-            <div>
-              <div>
-                <img src={user.icon} alt='' style={style.icon} />
-                <div style={style.name}>{user.name}</div>
-                <div style={style.date}>{user.last_sent_at.replace('T', ' ').replace('Z', '').split('.')[0]}</div>
-                <div style={style.message}>{user.text}</div>
-              </div>
+      <div style={style.users}>
+        {!!users.length && users.map((user) => {
+          let date = dConvert(user.last_sent_at)
+          const time = tConvert(user.last_sent_at);
+          return (
+            <div key={user.id_message} style={style.user}>
+              <Link to={{ pathname: "/chat", state: { id_recipient: user.id_sender === id ? user.id_recipient : user.id_sender, recipient_icon: user.icon, recipient_name: user.name } }} style={style.link}>
+                <div>
+                  <div>
+                    <img src={user.icon} alt='' style={style.icon} />
+                    <div>
+                      <div style={style.name}>{user.name}</div>
+                      <div style={style.date}>{date} {time}</div>
+                      <br />
+                      <TextClamp
+                        text={user.text}
+                        lines={1}
+                        styles={style.message}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <br />
+              </Link>
               <hr />
             </div>
-          </Link>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
 }
 
 const style = {
-  // icon: {
-  //   width: '50px',
-  //   height: '50px',
-  //   objectFit: 'cover',
-  //   borderRadius: '50%',
-  //   position: 'relative',
-  //   right: '160px',
-  // },
 
-  // link: {
-  //   textDecoration: 'none',
-  //   color: 'black',
-  // },
+  users: {
+    position: 'relative',
+    padding: '50px 0px 50px',
+    backgroundColor: '#F1F3F5',
+  },
 
-  // name: {
-  //   position: 'relative',
-  //   textAlign: 'left',
-  //   left: '90px',
-  //   top: '-52px',
-  //   padding: 0,
-  //   margin: 0
-  // },
+  user: {
+    lineHeight: '0px',
+    padding: '6px',
+  },
 
-  // date: {
-  //   position: 'relative',
-  //   textAlign: 'right',
-  //   right: '20px',
-  //   top: '-75px',
-  //   padding: 0,
-  //   margin: 0
-  // },
+  link: {
+    textDecoration: 'none',
+    color: 'black',
+    lineHeight: 'normal'
+  },
 
-  // message: {
-  //   position: 'relative',
-  //   textAlign: 'left',
-  //   left: '90px',
-  //   top: '-72px',
-  //   padding: 0,
-  //   margin: 0
-  // }
+  icon: {
+    width: '45px',
+    height: '45px',
+    objectFit: 'cover',
+    borderRadius: '50%',
+    position: 'relative',
+    float: 'left',
+    top: '3px',
+    left: '16px'
+  },
+
+  name: {
+    position: 'relative',
+    textAlign: 'left',
+    fontWeight: 'bold',
+    float: 'left',
+    left: '30px',
+  },
+
+  message: {
+    position: 'relative',
+    textAlign: 'left',
+    left: '30px',
+    top: '5px',
+    width: '380px',
+  },
+
+  date: {
+    position: 'relative',
+    textAlign: 'left',
+    float: 'right',
+    right: '20px'
+  },
 }
 
 export default MessagesPage

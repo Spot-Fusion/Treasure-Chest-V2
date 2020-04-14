@@ -1,19 +1,21 @@
 import React from 'react';
 import axios from 'axios';
-import BottomTabNav from '../components/BottomTabNav';
 import { Nav, Button, InputGroup, FormControl } from 'react-bootstrap';
-import { useLocation, Link, NavLink } from 'react-router-dom'
+import { useLocation, NavLink } from 'react-router-dom'
 
 
 const ChatPage = ({ title }) => {
   title("Chat");
   const [messages, setMessages] = React.useState([]);
   const [input, setInput] = React.useState('');
-  const [menuVisible, setMenuVisible] = React.useState(false);
   const location = useLocation();
-  const { id, icon, name } = window.$user;
-  // const id = 13, name = 'Christopher LeBoeuf', icon = 'https://lh3.googleusercontent.com/a-/AOh14GhytysnVGtyIsffBFPDNYjIBvz-hL6lrUN1rB_S=s96-c'
-  const { id_recipient, recipient_icon, recipient_name } = location.state;
+  // const { id, icon, name } = window.$user;
+  const id = 13, name = 'Christopher LeBoeuf', icon = 'https://lh3.googleusercontent.com/a-/AOh14GhytysnVGtyIsffBFPDNYjIBvz-hL6lrUN1rB_S=s96-c'
+  const { id_recipient, recipient_icon, recipient_name } = location.state
+
+  const bottomScroll = async () => {
+    return window.scrollTo(0, document.body.scrollHeight);
+  }
 
   const nameShortener = (name) => {
     return name.split(' ')[0];
@@ -27,6 +29,7 @@ const ChatPage = ({ title }) => {
   const sendMessage = async () => {
     await axios.post(`http://localhost:8080/message/${id}/${id_recipient}`, { text: input });
     await getMessages();
+    bottomScroll()
     setInput('');
   }
 
@@ -48,15 +51,13 @@ const ChatPage = ({ title }) => {
           </Nav.Item>
         </Nav>
       </div>
-      {/* <BottomTabNav /> */}
     </div>
   )
 
   React.useEffect(() => {
     getMessages();
-    window.scrollTo(0,0);
-    // let intId = setInterval(() => { getMessages() }, 1000);
-    // return () => clearInterval(intId);
+    let intId = setInterval(() => { getMessages() }, 2000);
+    return () => clearInterval(intId);
   }, []);
 
   return (
