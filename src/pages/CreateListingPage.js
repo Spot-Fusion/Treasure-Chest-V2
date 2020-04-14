@@ -69,9 +69,9 @@ function CreateListingPage({title}) {
 
     return (
         <div style={{margin: 10}}>
-        <Router>
+        {/* <Router>
          {redirect ? <Redirect to={{pathname: '/showlisting', state: { idListing },}} /> : null} 
-         </Router>
+         </Router> */}
             <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
             <img alt={"http://pngimg.com/uploads/treasure_chest/treasure_chest_PNG108.png"} 
           style={{ alignSelf: 'center', height: 200, width: 200 }}
@@ -113,8 +113,9 @@ function CreateListingPage({title}) {
             checked={negotiable > 0 ? true : false}
             style={styles.input}
             required onChange={(e) => setNegotialbe(negotiable > 0 ? 0 : 1)} />
-        
+        <Link to={{pathname: '/showlisting', state: { idListing: 48 },}} >
         <input type="submit" value="Create" style={{backgroundColor: '#3FC184', color: '#F1F3F5', fontSize: 20}}/>
+        </Link>
       </form>
         </div>
     )
