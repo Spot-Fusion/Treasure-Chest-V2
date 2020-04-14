@@ -35,8 +35,8 @@ const MessagesPage = ({ title }) => {
       setUsers(users.data);
     }
     getUsers();
-    // let intId = setInterval(() => { getUsers() }, 1000);
-    // return () => clearInterval(intId);
+    let intId = setInterval(() => { getUsers() }, 2000);
+    return () => clearInterval(intId);
   }, [id]);
 
   return (
