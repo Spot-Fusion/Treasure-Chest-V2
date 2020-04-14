@@ -20,7 +20,6 @@ function DisplayListings(props) {
                     let key = listing.id.toString();
                     favObj[key] = res.data
                     const obj = Object.assign({}, favObj)
-                    console.log(JSON.stringify(obj))
                     setFavorited(obj);
                 })
                 .catch(e => console.log(e));
