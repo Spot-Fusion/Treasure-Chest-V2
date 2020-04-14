@@ -13,23 +13,23 @@ function DrawerNav({ slideMenu }) {
     <div id="slidenav" className="sidenav" style={styles}>
       <ProfileDrawer slideMenu={slideMenu}/>
         <nav>
-          <div style={{listStyleType: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', left: 5}}>            
-            <div onClick={slideMenu} style={{left: '5px'}}>
+          <div style={{listStyleType: 'none', display: 'flex', flexDirection: 'column', textAlign: 'left'}}>            
+            {/* <div onClick={slideMenu} style={{left: '5px'}}>
               <IoMdHome color={'#223843'} size={20} />
               <Link to="/home">Home</Link>
-            </div>
-            <div onClick={slideMenu}>
+            </div> */}
+            {/* <div onClick={slideMenu}>
               <MdMessage color={'#223843'} size={20} />
               <Link to="/messages">Messages</Link>
-            </div>
+            </div> */}
             <div onClick={slideMenu}>
               <IoMdContact color={'#223843'} size={20} />
               <Link to="/profile">Profile</Link>
             </div>
-            <div onClick={slideMenu}>
+            {/* <div onClick={slideMenu}>
               <IoMdContact color={'#223843'} size={20} />
               <Link to="/users">Users</Link>
-            </div>
+            </div> */}
             <div onClick={slideMenu}>
               <IoMdExit color={'#223843'} size={20} />
               <Link to="/">LogOut</Link>
