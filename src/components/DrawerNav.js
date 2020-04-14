@@ -22,17 +22,17 @@ function DrawerNav({ slideMenu }) {
               <MdMessage color={'#223843'} size={20} />
               <Link to="/messages">Messages</Link>
             </div> */}
-            <div onClick={slideMenu}>
-              <IoMdContact color={'#223843'} size={20} />
-              <Link to="/profile">Profile</Link>
+            <div onClick={slideMenu} style={{marginLeft: 20, marginTop: 25}}>
+              <IoMdContact color={'#223843'} size={30} />
+              <Link to="/profile" style={{fontSize: 18, marginLeft: 10}}>Profile</Link>
             </div>
             {/* <div onClick={slideMenu}>
               <IoMdContact color={'#223843'} size={20} />
               <Link to="/users">Users</Link>
             </div> */}
-            <div onClick={slideMenu}>
-              <IoMdExit color={'#223843'} size={20} />
-              <Link to="/">LogOut</Link>
+            <div onClick={slideMenu} style={{marginLeft: 20, marginTop: 25}}>
+              <IoMdExit color={'#223843'} size={30} />
+              <Link to="/" style={{fontSize: 18, marginLeft: 10}}>LogOut</Link>
             </div>
           </div>
         </nav>

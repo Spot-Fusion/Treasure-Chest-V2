@@ -22,7 +22,7 @@ function HomePage({ title }) {
     }, []);
     
     return (
-        <div>
+        <div style={{marginTop: 45, marginBottom: 45}}>
             <DisplayListings listings={listings}/>
         </div>
     )
