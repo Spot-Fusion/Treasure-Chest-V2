@@ -13,7 +13,7 @@ function CreateListingPage({title}) {
    const [zipcode, setZipcode] = React.useState(0);
    const [negotiable, setNegotialbe] = React.useState(0);
    const [image, setImage] = React.useState('https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png');
-   const [idListing, setIdListing] = React.useState(0);
+   const [listing, setListing] = React.useState({});
    const [redirect, setRedirect] = React.useState(false);
 
    const styles = {
@@ -30,7 +30,8 @@ function CreateListingPage({title}) {
    const addImage = async (id, image) => {
     await axios.post(`http://${url}:8080/listing/${id}`, { image })
     .then(body => {
-      console.log(body.data);     
+      console.log(body.data);   
+      getListing(id)  
     //   navigation.navigate('ShowListing', { idListing: id });
     })
     .catch(e => console.error(e))
@@ -39,12 +40,16 @@ function CreateListingPage({title}) {
    const addPost = async (name, description, price, zipcode, negotiable) => {
     await axios.post(`http://${url}:8080/listing/`, {id_seller: idSeller, id_category: 1, name, description, price, zipcode, negotiable })
     .then(body => {
-      setIdListing(body.data);
       addImage(body.data, image)
     })
     .catch(e => console.error(e));
   }
 
+  const getListing = async (id) => {
+    await axios.get(`http://${url}:8080/listing/${id}`)
+      .then(post => setListing(post.data))
+      .catch(e => console.error(e));
+  }
 
   const chooseImage = (img) => {
     setImage('' + img);
@@ -73,10 +78,10 @@ function CreateListingPage({title}) {
          {redirect ? <Redirect to={{pathname: '/showlisting', state: { idListing },}} /> : null} 
          </Router> */}
             <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
-            <img alt={"http://pngimg.com/uploads/treasure_chest/treasure_chest_PNG108.png"} 
+            <img alt="https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png" 
           style={{ alignSelf: 'center', height: 200, width: 200 }}
           src={ image } />
-          <ImagePicker chooseImage={chooseImage} style={{justifySelf: 'center'}}/>
+          <div style={{float: 'center'}}><ImagePicker chooseImage={chooseImage} style={{float: 'center'}}/></div>
           </div>
           <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
            <label style={styles.label}>Name: {name}</label>
@@ -113,9 +118,9 @@ function CreateListingPage({title}) {
             checked={negotiable > 0 ? true : false}
             style={styles.input}
             required onChange={(e) => setNegotialbe(negotiable > 0 ? 0 : 1)} />
-        <Link to={{pathname: '/showlisting', state: { idListing: 48 },}} >
+        {/* <Link to={{pathname: '/showlisting', state: { listing: 48 },}} > */}
         <input type="submit" value="Create" style={{backgroundColor: '#3FC184', color: '#F1F3F5', fontSize: 20}}/>
-        </Link>
+        {/* </Link> */}
       </form>
         </div>
     )
