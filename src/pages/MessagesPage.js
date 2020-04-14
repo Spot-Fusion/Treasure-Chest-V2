@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 
-const MessagesPage = () => {
+const MessagesPage = ({title}) => {
+  title("Messages");
   const [users, setUsers] = React.useState([]);
   const id = 13 || window.$user.id;
 
@@ -19,7 +20,6 @@ const MessagesPage = () => {
 
   return (
     <div>
-      <h1>Messages</h1>
       <div>
         {!!users.length && users.map((user) => (
           <Link to={{ pathname: "/chat", state: { id_recipient: user.id_sender === id ? user.id_recipient : user.id_sender, recipient_icon: user.icon, recipient_name: user.name } }} style={style.link} key={user.id_message}>
@@ -28,7 +28,7 @@ const MessagesPage = () => {
                 <img src={user.icon} alt='' style={style.icon} />
                 <div style={style.name}>{user.name}</div>
                 <div style={style.date}>{user.last_sent_at.replace('T', ' ').replace('Z', '').split('.')[0]}</div>
-                  <div style={style.message}>{user.text}</div>
+                <div style={style.message}>{user.text}</div>
               </div>
               <hr />
             </div>
@@ -40,46 +40,46 @@ const MessagesPage = () => {
 }
 
 const style = {
-  icon: {
-    width: '50px',
-    height: '50px',
-    objectFit: 'cover',
-    borderRadius: '50%',
-    position: 'relative',
-    right: '160px',
-  },
+  // icon: {
+  //   width: '50px',
+  //   height: '50px',
+  //   objectFit: 'cover',
+  //   borderRadius: '50%',
+  //   position: 'relative',
+  //   right: '160px',
+  // },
 
-  link: {
-    textDecoration: 'none',
-    color: 'black',
-  },
+  // link: {
+  //   textDecoration: 'none',
+  //   color: 'black',
+  // },
 
-  name: {
-    position: 'relative',
-    textAlign: 'left',
-    left: '90px',
-    top: '-52px',
-    padding: 0,
-    margin: 0
-  },
+  // name: {
+  //   position: 'relative',
+  //   textAlign: 'left',
+  //   left: '90px',
+  //   top: '-52px',
+  //   padding: 0,
+  //   margin: 0
+  // },
 
-  date: {
-    position: 'relative',
-    textAlign: 'right',
-    right: '20px',
-    top: '-75px',
-    padding: 0,
-    margin: 0
-  },
+  // date: {
+  //   position: 'relative',
+  //   textAlign: 'right',
+  //   right: '20px',
+  //   top: '-75px',
+  //   padding: 0,
+  //   margin: 0
+  // },
 
-  message: {
-    position: 'relative',
-    textAlign: 'left',
-    left: '90px',
-    top: '-72px',
-    padding: 0,
-    margin: 0
-  }
+  // message: {
+  //   position: 'relative',
+  //   textAlign: 'left',
+  //   left: '90px',
+  //   top: '-72px',
+  //   padding: 0,
+  //   margin: 0
+  // }
 }
 
 export default MessagesPage
