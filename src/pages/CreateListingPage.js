@@ -3,31 +3,32 @@ import {useLocation} from 'react-router-dom'
 import axios from 'axios'
 import ImagePicker from '../components/ImagePicker';
 import { BrowserRouter as Router, Redirect, Link } from "react-router-dom";
-   
+import defaultImg from '../images/ThumbnailImage.png'
+
 function CreateListingPage({title}) {
-   const [idSeller, setIdSeller] = React.useState(window.$user.id);
-   const [idCategory, setIdCategory] = React.useState(1);
-   const [name, setName] = React.useState('');
-   const [description, setDescription] = React.useState('')
-   const [price, setPrice] = React.useState(0);
-   const [zipcode, setZipcode] = React.useState(0);
-   const [negotiable, setNegotialbe] = React.useState(0);
-   const [image, setImage] = React.useState('https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png');
-   const [listing, setListing] = React.useState({});
-   const [redirect, setRedirect] = React.useState(false);
+  const [idSeller, setIdSeller] = React.useState(window.$user.id);
+  const [idCategory, setIdCategory] = React.useState(1);
+  const [name, setName] = React.useState('');
+  const [description, setDescription] = React.useState('')
+  const [price, setPrice] = React.useState(0);
+  const [zipcode, setZipcode] = React.useState(0);
+  const [negotiable, setNegotialbe] = React.useState(0);
+  const [image, setImage] = React.useState(defaultImg);
+  const [listing, setListing] = React.useState({});
+  const [redirect, setRedirect] = React.useState(false);
 
-   const styles = {
-     input: {
+  const styles = {
+    input: {
       height: 40, borderColor: 'gray', borderWidth: 1, borderRadius: 5, backgroundColor: '#D3D3D3'
-     },
-     label: {
+    },
+    label: {
       textAlign: 'left', 
-     }
-   }
+    }
+  }
 
-   let url = 'localhost';
+  let url = 'localhost';
 
-   const addImage = async (id, image) => {
+  const addImage = async (id, image) => {
     await axios.post(`http://${url}:8080/listing/${id}`, { image })
     .then(body => {
       console.log(body.data);   
@@ -35,9 +36,9 @@ function CreateListingPage({title}) {
     //   navigation.navigate('ShowListing', { idListing: id });
     })
     .catch(e => console.error(e))
-   }
+  }
 
-   const addPost = async (name, description, price, zipcode, negotiable) => {
+  const addPost = async (name, description, price, zipcode, negotiable) => {
     await axios.post(`http://${url}:8080/listing/`, {id_seller: idSeller, id_category: 1, name, description, price, zipcode, negotiable })
     .then(body => {
       addImage(body.data, image)
@@ -73,18 +74,18 @@ function CreateListingPage({title}) {
     title('Create Listing');
 
     return (
-        <div style={{margin: 10}}>
+        <div style={{margin: 10, marginTop: 55}}>
         {/* <Router>
-         {redirect ? <Redirect to={{pathname: '/showlisting', state: { idListing },}} /> : null} 
+        {redirect ? <Redirect to={{pathname: '/showlisting', state: { idListing },}} /> : null} 
          </Router> */}
             <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center'}}>
-            <img alt="https://res.cloudinary.com/tbgarza2/image/upload/v1586804677/icons8-treasure-chest-100_rwb2vs.png" 
-          style={{ alignSelf: 'center', height: 200, width: 200 }}
+            <img alt={defaultImg} 
+          style={{ alignSelf: 'center', height: 200, width: 200, marginBottom: 20 }}
           src={ image } />
           <div style={{float: 'center'}}><ImagePicker chooseImage={chooseImage} style={{float: 'center'}}/></div>
           </div>
           <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column'}}>
-           <label style={styles.label}>Name: {name}</label>
+          <label style={styles.label}>Name: {name}</label>
           <input   
             type="text"
             value={name}
@@ -97,29 +98,21 @@ function CreateListingPage({title}) {
             style={styles.input}
             required onChange={(e) => setDescription(e.target.value)} 
             placeholder='Input Description...' />
-             <label style={styles.label}>Price: ${price}</label>
+            <label style={styles.label}>Price: ${price}</label>
           <input
             type="number"
             value={price}
             style={styles.input}
             required onChange={(e) => setPrice(e.target.value)}
             placeholder='Input Price...' />
-             <label style={styles.label}>Zipcode: {zipcode}</label>
+            <label style={styles.label}>Zipcode: {zipcode}</label>
           <input
             type="number"
             value={zipcode}
             style={styles.input}
             required onChange={(e) => setZipcode(e.target.value)}
             placeholder='Input Zipcode...' />
-             <label style={styles.label}>Negotiable: </label>
-          <input
-            type="checkbox"
-            value={negotiable > 0 ? true : false} 
-            checked={negotiable > 0 ? true : false}
-            style={styles.input}
-            required onChange={(e) => setNegotialbe(negotiable > 0 ? 0 : 1)} />
-        {/* <Link to={{pathname: '/showlisting', state: { listing: 48 },}} > */}
-        <input type="submit" value="Create" style={{backgroundColor: '#3FC184', color: '#F1F3F5', fontSize: 20}}/>
+        <input type="submit" value="Create" style={{backgroundColor: '#3FC184', color: '#F1F3F5', fontSize: 20, marginTop: 25}}/>
         {/* </Link> */}
       </form>
         </div>
