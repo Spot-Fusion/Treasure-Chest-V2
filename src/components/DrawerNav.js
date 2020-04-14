@@ -13,7 +13,7 @@ function DrawerNav({ slideMenu }) {
     <div id="slidenav" className="sidenav" style={styles} onClick={slideMenu}>
       <ProfileDrawer slideMenu={slideMenu} />
       <nav onClick={slideMenu}>
-        <div style={{ listStyleType: 'none', display: 'flex', flexDirection: 'column', textAlign: 'left', bottom: '0', zIndex: '1000', position: 'fixed' }}>
+        <div style={{ listStyleType: 'none', display: 'flex', flexDirection: 'column', textAlign: 'left', zIndex: '1000', position: 'fixed' }}>
           {/* <div onClick={slideMenu} style={{left: '5px'}}>
               <IoMdHome color={'#223843'} size={20} />
               <Link to="/home">Home</Link>
