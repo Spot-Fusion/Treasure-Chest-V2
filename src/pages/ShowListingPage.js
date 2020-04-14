@@ -64,7 +64,7 @@ function ShowListingPage({title}) {
             <img style={{height: 175, width: 175, marginTop: 15}} src={listing.image} alt={defaultImg}/>
             <div style={{marginTop: 25}}>
                 <p style={{float:'left', marginLeft: 15, fontSize: 24}}>{listing.name}</p>
-                <p style={{float:'right', fontSize: 24, marginRight: 15}}>$100</p>
+                <p style={{float:'right', fontSize: 24, marginRight: 15}}>{`$${listing.price}`}</p>
             </div>
             <div style={{marginTop: 90}}>
                 <Button onClick={() => {favoriteListing(idListing)}} style={{float: 'left', marginLeft: 75, width: 120}} variant={favBtnColor}>{`${favBtnText} ☆`}</Button>
