@@ -10,9 +10,9 @@ import ProfileDrawer from './ProfileDrawer';
 
 function DrawerNav({ slideMenu }) {
     return (
-    <div id="slidenav" className="sidenav" style={styles}>
+    <div id="slidenav" className="sidenav" style={styles} onClick={slideMenu}>
       <ProfileDrawer slideMenu={slideMenu}/>
-        <nav>
+        <nav onClick={slideMenu}>
           <div style={{listStyleType: 'none', display: 'flex', flexDirection: 'column', textAlign: 'left'}}>            
             {/* <div onClick={slideMenu} style={{left: '5px'}}>
               <IoMdHome color={'#223843'} size={20} />
