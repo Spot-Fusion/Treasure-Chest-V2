@@ -43,7 +43,7 @@ function CreateListingPage({title}) {
   const getListing = async (id) => {
     await axios.get(`http://${url}:8080/listing/${id}`)
       .then(post => {
-        console.log(post.data);
+        console.log(post);
         setListing(post.data);
         history.push('/showlisting', {listing}) // <<< here is the nav to the show listing page
       })
@@ -53,7 +53,7 @@ function CreateListingPage({title}) {
   const addImage = async (id, image) => {
     await axios.post(`http://${url}:8080/listing/${id}`, { image })
     .then(body => {
-      console.log(body.data);   
+      console.log('addImage', id, body.data);   
       getListing(id)  
     //   navigation.navigate('ShowListing', { idListing: id });
     })
@@ -63,6 +63,7 @@ function CreateListingPage({title}) {
   const addPost = async (name, description, price, zipcode, negotiable) => {
     await axios.post(`http://${url}:8080/listing/`, {id_seller: idSeller, id_category: 1, name, description, price, zipcode, negotiable })
     .then(body => {
+      console.log('addPost', body.data)
       addImage(body.data, image)
     })
     .catch(e => console.error(e));
