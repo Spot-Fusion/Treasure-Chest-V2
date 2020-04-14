@@ -11,13 +11,14 @@ function DisplayListings(props) {
     const listings = props.listings;
     const [favorited, setFavorited] = React.useState({});
     const idUser = window.$user.id;
+    console.log(listings);
 
     const checkFavoriteListing = async (listings) => {
         const favObj = Object.assign({}, favorited)
         listings.forEach((listing) => {
-            axios.get(`http://localhost:8080/favorite/${idUser}/${listing.id}`)
+            axios.get(`http://localhost:8080/favorite/${idUser}/${listing.id || listing.id_listing}`)
                 .then(res => {
-                    let key = listing.id.toString();
+                    let key = listing.id || listing.id_listing;
                     favObj[key] = res.data
                     const obj = Object.assign({}, favObj)
                     setFavorited(obj);
@@ -27,6 +28,7 @@ function DisplayListings(props) {
     }
 
     const favoriteListing = async (id) => {
+        console.log(id)
         if(favorited[id]){
             await axios.delete(`http://localhost:8080/favorite/${idUser}/${id}`)
             .then(() => {
@@ -48,9 +50,9 @@ function DisplayListings(props) {
 
         if(index + 1 <= listings.length - 1){
             let secondIndex = listings[index + 1];
-            let favoriteBtn2 = <IoIosStarOutline onClick={() => {favoriteListing(secondIndex.id)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
-            if(favorited[secondIndex.id]){
-                favoriteBtn2 = <IoIosStar onClick={() => {favoriteListing(secondIndex.id)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
+            let favoriteBtn2 = <IoIosStarOutline onClick={() => {favoriteListing(secondIndex.id || secondIndex.id_listing)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
+            if(favorited[secondIndex.id]  || favorited[secondIndex.id_listing]){
+                favoriteBtn2 = <IoIosStar onClick={() => {favoriteListing(secondIndex.id || secondIndex.id_listing)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
             }
             secondListing = (
                 <div>
@@ -78,9 +80,9 @@ function DisplayListings(props) {
                 </div>
             );
         }
-        let favoriteBtn1 = <IoIosStarOutline onClick={() => {favoriteListing(listing.id)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
-        if(favorited[listing.id]){
-            favoriteBtn1 = <IoIosStar onClick={() => {favoriteListing(listing.id)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
+        let favoriteBtn1 = <IoIosStarOutline onClick={() => {favoriteListing(listing.id || listing.id_listing)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
+        if(favorited[listing.id] || favorited[listing.id_listing]){
+            favoriteBtn1 = <IoIosStar onClick={() => {favoriteListing(listing.id || listing.id_listing)}} color={'#F1F3F5'} size={30} style={{marginTop: 7, float: 'right', marginRight: 15, fontWeight: 'bold'}} />
         }
         if(index === 0 || index % 2 === 0){
             returnListing = (
