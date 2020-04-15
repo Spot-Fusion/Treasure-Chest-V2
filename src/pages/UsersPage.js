@@ -15,17 +15,17 @@ const UsersPage = ({ title }) => {
   const id = !location.state ? window.$user.id : location.state.id;
 
   const getFollowers = async () => {
-    const followers = await axios.get(`http://localhost:8081/follow/followed_by/${id}`);
+    const followers = await axios.get(`http://localhost:8080/follow/followed_by/${id}`);
     setUsers(followers.data);
   }
 
   const getFollowing = async () => {
-    const following = await axios.get(`http://localhost:8081/follow/following/${id}`);
+    const following = await axios.get(`http://localhost:8080/follow/following/${id}`);
     setUsers(following.data);
   }
 
   const unFollow = async () => {
-    await axios.delete(`http://localhost:8081/follow/${id}/${clickedId}`);
+    await axios.delete(`http://localhost:8080/follow/${id}/${clickedId}`);
     await getFollowing();
     setShow(false);
   }
