@@ -27,7 +27,6 @@ function DisplayListings(props) {
     }
 
     const favoriteListing = async (id) => {
-        console.log(id)
         if(favorited[id]){
             await axios.delete(`http://localhost:8080/favorite/${idUser}/${id}`)
             .then(() => {
