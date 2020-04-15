@@ -3,13 +3,15 @@ import { Nav, Button, Modal } from 'react-bootstrap';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 
-const UsersPage = () => {
+const UsersPage = ({ title }) => {
+  const location = useLocation();
+  title('Users');
+  // const [active, setActive] = useState(location.state.clicked); // Add clicked state to profile page
   const [active, setActive] = useState('Following');
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState('username');
   const [clickedId, setId] = useState(0);
-  const location = useLocation();
   const id = !location.state ? window.$user.id : location.state.id;
 
   const getFollowers = async () => {
