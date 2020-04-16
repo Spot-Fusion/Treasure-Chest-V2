@@ -13,19 +13,20 @@ const UsersPage = ({ title }) => {
   const [username, setUsername] = useState('username');
   const [clickedId, setId] = useState(0);
   const id = !location.state ? window.$user.id : location.state.id;
+  let display = !location.state ? 'Following' : location.state.display;
 
   const getFollowers = async () => {
-    const followers = await axios.get(`http://localhost:8081/follow/followed_by/${id}`);
+    const followers = await axios.get(`http://localhost:8080/follow/followed_by/${id}`);
     setUsers(followers.data);
   }
 
   const getFollowing = async () => {
-    const following = await axios.get(`http://localhost:8081/follow/following/${id}`);
+    const following = await axios.get(`http://localhost:8080/follow/following/${id}`);
     setUsers(following.data);
   }
 
   const unFollow = async () => {
-    await axios.delete(`http://localhost:8081/follow/${id}/${clickedId}`);
+    await axios.delete(`http://localhost:8080/follow/${id}/${clickedId}`);
     await getFollowing();
     setShow(false);
   }
@@ -77,9 +78,10 @@ const UsersPage = ({ title }) => {
   }
 
   useEffect(() => {
-    getUsers(active);
+    getUsers(display);
   }, []);
-
+ 
+  console.log(users);
   return (
     <div>
       <div style={style.navBar}>
@@ -92,7 +94,7 @@ const UsersPage = ({ title }) => {
       <div style={style.users}>
         {!!users.length && users.map((user) => (
           <div style={style.user} key={user.id}>
-            <Link to={{ pathname: "/profile", state: { id: user.id } }} style={style.link}>
+            <Link to={{ pathname: "/profile", state:  user.id  }} style={style.link}>
               <div>
                 <img src={user.icon} alt='' style={style.icon} />
                 <div style={style.name}>{user.name}</div>
