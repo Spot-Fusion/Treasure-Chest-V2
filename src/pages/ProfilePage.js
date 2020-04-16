@@ -4,6 +4,7 @@ import ImagePicker from '../components/ImagePicker';
 import axios from 'axios'
 import {useLocation, Link, useHistory} from 'react-router-dom'
 import DisplayListings from '../components/DisplayListings';
+import { IoMdAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
 
 function ProfilePage({ title }) {
     let location = useLocation();
@@ -13,13 +14,16 @@ function ProfilePage({ title }) {
     const [description, setDescription] = React.useState('');
     const [image, setImage] = React.useState(window.$user.icon);
     const [edit, setEdit] = React.useState(false);
+    const [followBtn, setFollowBtn] = React.useState(false)
+    const [followingCount, setFollowingCount] = React.useState(0)
+    const [followersCount, setFollowersCount] = React.useState(0)
     const [sellList, setSellList] = React.useState([]);
     const [soldList, setSoldList] = React.useState([]);
     const [favList, setFavList] = React.useState([]);
     const [show, setShow] = React.useState(0)
  
     let url = 'localhost'; 
-   
+    let idUser = location.state === undefined ? window.$user.id : location.state;
     const getProfile = async (id) => {
      await axios.get(`http://${url}:8080/user/id/${id}`)
        .then(post => {
@@ -57,20 +61,62 @@ function ProfilePage({ title }) {
        })
        .catch(e => console.error(e));
     }
+
+    const countFollowing = async (id) => {
+      await axios.get(`http://localhost:8080/follow/following/count/${id}`)
+          .then(res => setFollowingCount(res.data))
+          .catch(e => console.error(e));
+      }
+    
+    const countFollowers = async (id) => {
+      await axios.get(`http://localhost:8080/follow/followed_by/count/${id}`)
+          .then(res => setFollowersCount(res.data))
+          .catch(e => console.error(e));
+      }
+
+    const checkIfFollowing = async (id) => {
+      await axios.get(`http://localhost:8080/follow/isFollowing/${window.$user.id}/${id}`)
+          .then(res => {
+            console.log('checking', res.data);
+              res.data ? setFollowBtn(true) : setFollowBtn(false);
+          })
+          .catch(e => console.error(e));
+      }
+
+    const follow = async (id) => {
+      await axios.post(`http://${url}:8080/follow/${window.$user.id}/${id}`)
+        .then(post => {
+          console.log("you're following", post)
+          checkIfFollowing(id)
+        })
+        .catch(e => console.error(e));
+    } 
+
+    const unfollow = async (id) => {
+      await axios.delete(`http://${url}:8080/follow/${window.$user.id}/${id}`)
+        .then(post => {
+          console.log("you're not following", post)
+          checkIfFollowing(id)
+        })
+        .catch(e => console.error(e));
+    } 
  
    const chooseImage = (img) => {
      setImage('' + img);
      console.log(`This is chosen: ${img}`);
    };
  
-   let idUser = location.state === undefined ? window.$user.id : location.state;
+  
    React.useEffect(() =>{
      getProfile(idUser)
      getSellListings(idUser)
      getSoldListings(idUser)
      getFavListings(idUser)
+     checkIfFollowing(idUser)
+     countFollowers(idUser)
+     countFollowing(idUser)
    }, [])
-   let listings = sellList;
+  //  let listings = sellList;
     return (
         <div style={{paddingTop: 40}}>
            <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -83,8 +129,8 @@ function ProfilePage({ title }) {
           
           <h4 style={{marginVertical: 25 ,fontSize: 24}} >{userName}</h4>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
-          <Link to="/users" style={{fontSize: 14, color: 'black'}} >{`${idUser} Following`}</Link>
-          <Link to="/users" style={{fontSize: 14, color: 'black'}} >{`${idUser} Followers`}</Link>
+          <Link to={{pathname: "/users", state: {id: idUser, display: 'Following'},}} style={{fontSize: 14, color: 'black', float: 'left'}} >{`${followingCount} Following`}</Link>
+          <Link to={{pathname: "/users", state: {id: idUser, display: 'Followers'},}} style={{fontSize: 14, color: 'black', float: 'right'}} >{`${followersCount} Followers`}</Link>
           </div>
           { edit ? <input
             type="text"
@@ -94,14 +140,31 @@ function ProfilePage({ title }) {
             placeholder='Input User Name...'
           /> : null}
           {location.state !== window.$user.id && location.state ? 
-            <Button style={{width: 125,
+            (followBtn ? 
+              <Button style={{width: 125,
               height: 35,
               borderRadius: 5,
-              backgroundColor: '#3FC184',
-              marginRight: 15,}} 
-              onClick={() => history.goBack() /*to={{ pathname: '/chat', state: { id_recipient: location.state.id },}}*/} >
-                Message
-                </Button>
+              backgroundColor: 'gray',
+              margin: '5 10',
+              display: 'flex', 
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+              }} 
+              onClick={() => unfollow(idUser)} >
+               <div>Unfollow</div> <IoIosRemoveCircleOutline color={'#F1F3F5'} size={30} />
+                </Button> 
+                :  <Button style={{width: 125,
+                  height: 35,
+                  borderRadius: 5,
+                  backgroundColor: '#3FC184',
+                  margin: '5 10',
+                  display: 'flex', 
+                  flexDirection: 'row',
+                  justifyContent: 'space-between'
+                  }}  
+                  onClick={() => follow(idUser)} >
+                    <div>Follow</div> <IoMdAddCircleOutline color={'#F1F3F5'} size={30} />
+                    </Button>)
               : 
             <Button style={{width: 125,
               height: 35,
