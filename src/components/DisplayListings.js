@@ -11,7 +11,6 @@ function DisplayListings(props) {
     const listings = props.listings;
     const [favorited, setFavorited] = React.useState({});
     const idUser = window.$user.id;
-    // console.log(listings);
 
     const checkFavoriteListing = async (listings) => {
         const favObj = Object.assign({}, favorited)
@@ -28,7 +27,6 @@ function DisplayListings(props) {
     }
 
     const favoriteListing = async (id) => {
-        console.log(id)
         if(favorited[id]){
             await axios.delete(`http://localhost:8080/favorite/${idUser}/${id}`)
             .then(() => {

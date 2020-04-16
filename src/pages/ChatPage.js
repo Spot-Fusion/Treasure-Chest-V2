@@ -117,7 +117,8 @@ const style = {
     position: 'fixed',
     width: '100%',
     bottom: '40px',
-    zIndex: '1000'
+    zIndex: '1000',
+    marginBottom: 6.5,
   },
 
   sendButton: {
