@@ -99,11 +99,11 @@ const UsersPage = ({ title }) => {
                 <div style={style.name}>{user.name}</div>
               </div>
             </Link>
-            {active === 'Following' && window.$user === id && <Button style={style.button} onClick={() => showUserModel(user.name, user.id)} variant="link">...</Button>}
+            {active === 'Following' && window.$user.id === id && <Button style={style.button} onClick={() => showUserModel(user.name, user.id)} variant="link">...</Button>}
             <br />
           </div>
         ))}
-        {window.$user === id && modal(username)}
+        {modal(username)}
       </div>
     </div>
   )
@@ -113,7 +113,7 @@ const style = {
 
   modal: {
     position: 'fixed',
-    marginTop: '120%',
+    marginTop: '75%',
   },
 
   unfollow: {
