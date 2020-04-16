@@ -207,7 +207,7 @@ function ProfilePage({ title }) {
             Update Profile
           </Button> : null}
       </div> 
-      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', borderBottom: '2px solid #D8D8D8'}} >
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}} >
           <p onClick={() => setShow(0)} style={show === 0 ? styles.selected : styles.unSelected}>Selling</p>
           <p onClick={() => setShow(1)} style={show === 1 ? styles.selected : styles.unSelected}>Sold</p>
           <p onClick={() => setShow(2)} style={show === 2 ? styles.selected : styles.unSelected}>Favorites</p>
