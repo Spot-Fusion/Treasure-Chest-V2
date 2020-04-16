@@ -88,6 +88,7 @@ function ProfilePage({ title }) {
         .then(post => {
           console.log("you're following", post)
           checkIfFollowing(id)
+          countFollowers(id)
         })
         .catch(e => console.error(e));
     } 
@@ -97,6 +98,7 @@ function ProfilePage({ title }) {
         .then(post => {
           console.log("you're not following", post)
           checkIfFollowing(id)
+          countFollowers(id)
         })
         .catch(e => console.error(e));
     } 
@@ -130,7 +132,7 @@ function ProfilePage({ title }) {
           <h4 style={{marginVertical: 25 ,fontSize: 24}} >{userName}</h4>
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <Link to={{pathname: "/users", state: {id: idUser, display: 'Following'},}} style={{fontSize: 14, color: 'black', float: 'left'}} >{`${followingCount} Following`}</Link>
-          <Link to={{pathname: "/users", state: {id: idUser, display: 'Followers'},}} style={{fontSize: 14, color: 'black', float: 'right'}} >{`${followersCount} Followers`}</Link>
+          <Link to={{pathname: "/users", state: {id: idUser, display: 'Followers'},}} style={{fontSize: 14, color: 'black', paddingLeft: 0}} >{`${followersCount} Followers`}</Link>
           </div>
           { edit ? <input
             type="text"
@@ -191,8 +193,8 @@ function ProfilePage({ title }) {
             Update Profile
           </Button> : null}
       </div> 
-      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly'}} >
-          <p onClick={() => setShow(0)}>Selling</p>
+      <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', borderBottom: '2px solid #D8D8D8'}} >
+          <p onClick={() => setShow(0)} style={show === 0 ? {borderBottom: '2px solid #83AE9A'} : {borderBottom: '2px solid #D8D8D8'}}>Selling</p>
           <p onClick={() => setShow(1)}>Sold</p>
           <p onClick={() => setShow(2)}>Favorites</p>
       </div>

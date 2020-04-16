@@ -6,14 +6,13 @@ import axios from 'axios';
 const UsersPage = ({ title }) => {
   const location = useLocation();
   title('Users');
-  // const [active, setActive] = useState(location.state.clicked); // Add clicked state to profile page
-  const [active, setActive] = useState('Following');
+  const [active, setActive] = useState(location.state.display); // Add clicked state to profile page
+  // const [active, setActive] = useState('Following');
   const [users, setUsers] = useState([]);
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState('username');
   const [clickedId, setId] = useState(0);
   const id = !location.state ? window.$user.id : location.state.id;
-  let display = !location.state ? 'Following' : location.state.display;
 
   const getFollowers = async () => {
     const followers = await axios.get(`http://localhost:8080/follow/followed_by/${id}`);
@@ -78,7 +77,7 @@ const UsersPage = ({ title }) => {
   }
 
   useEffect(() => {
-    getUsers(display);
+    getUsers(active);
   }, []);
  
   console.log(users);
