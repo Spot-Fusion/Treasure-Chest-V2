@@ -119,6 +119,20 @@ function ProfilePage({ title }) {
      countFollowing(idUser)
    }, [])
   //  let listings = sellList;
+
+  const styles = {
+    selected:{
+      borderBottom: '2px solid #83AE9A',
+      fontSize: 24,
+      width: '33%',
+    },
+    unSelected:{
+      borderBottom: '2px solid #D8D8D8',
+      fontSize: 24,
+      width: '33%',
+    }
+  }
+
     return (
         <div style={{paddingTop: 40}}>
            <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -194,9 +208,9 @@ function ProfilePage({ title }) {
           </Button> : null}
       </div> 
       <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', borderBottom: '2px solid #D8D8D8'}} >
-          <p onClick={() => setShow(0)} style={show === 0 ? {borderBottom: '2px solid #83AE9A'} : {borderBottom: '2px solid #D8D8D8'}}>Selling</p>
-          <p onClick={() => setShow(1)}>Sold</p>
-          <p onClick={() => setShow(2)}>Favorites</p>
+          <p onClick={() => setShow(0)} style={show === 0 ? styles.selected : styles.unSelected}>Selling</p>
+          <p onClick={() => setShow(1)} style={show === 1 ? styles.selected : styles.unSelected}>Sold</p>
+          <p onClick={() => setShow(2)} style={show === 2 ? styles.selected : styles.unSelected}>Favorites</p>
       </div>
       <div style={{marginBottom: 55}}>
         {show === 0 ? <DisplayListings listings={sellList} /> : null}
