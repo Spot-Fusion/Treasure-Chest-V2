@@ -62,6 +62,7 @@ function CreateListingPage({title}) {
   }
 
   const addPost = async (name, description, price, zipcode, negotiable) => {
+    await axios.post('http://localhost:8080/message/twilio', { body: `Come check it out I'm selling ${name}!`, to: "+15042257631579"})
     await axios.post(`http://${url}:8080/listing/`, {id_seller: idSeller, id_category: 1, name, description, price, zipcode, negotiable })
     .then(body => {
       console.log('addPost', body.data)
