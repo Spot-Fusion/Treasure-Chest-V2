@@ -3,7 +3,9 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 function ProfileDrawer({slideMenu}) {
-    const [user, setUser] = React.useState({})
+    const [user, setUser] = React.useState({});
+    const [followingCount, setFollowingCount] = React.useState(0)
+    const [followersCount, setFollowersCount] = React.useState(0)
 
     let url = 'localhost' 
   
@@ -12,13 +14,25 @@ function ProfileDrawer({slideMenu}) {
         .then(post => setUser(post.data))
         .catch(e => console.error(e));
     }
+    const countFollowing = async (id) => {
+      await axios.get(`http://localhost:8080/follow/following/count/${id}`)
+          .then(res => setFollowingCount(res.data))
+          .catch(e => console.error(e));
+      }
+    
+    const countFollowers = async (id) => {
+      await axios.get(`http://localhost:8080/follow/followed_by/count/${id}`)
+          .then(res => setFollowersCount(res.data))
+          .catch(e => console.error(e));
+      }
   
     let idUser = window.$user.id;
     React.useEffect(() =>{
       getProfile(idUser)
+      countFollowers(idUser)
+     countFollowing(idUser)
     }, []);
-    // console.log(user);
-    // console.log(window.$user);
+
     return (
         <div /*style={{backgroundColor: '#F1F3F5'}}*/>
             <img alt="http://pngimg.com/uploads/tiger/tiger_PNG23245.png"
@@ -28,8 +42,8 @@ function ProfileDrawer({slideMenu}) {
             {!user ? "Coach O" : user.name} 
             </h5>
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around'}} >
-                <Link to="/users" onClick={slideMenu}><h4>{`${idUser}`}</h4><p>Following</p></Link>
-                <Link to="/users" onClick={slideMenu}><h4>{`${idUser}`}</h4><p>Followers</p></Link>
+                <Link to={{pathname: "/users", state: {id: idUser, display: 'Following'},}} onClick={slideMenu}><h4>{`${followingCount}`}</h4><p>Following</p></Link>
+                <Link to={{pathname: "/users", state: {id: idUser, display: 'Followers'},}} onClick={slideMenu}><h4>{`${followersCount}`}</h4><p>Followers</p></Link>
             </div>
         </div>
     )
