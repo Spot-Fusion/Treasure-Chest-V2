@@ -124,12 +124,12 @@ function ProfilePage({ title }) {
     selected:{
       borderBottom: '2px solid #83AE9A',
       fontSize: 24,
-      width: '33%',
+      width: '33.3%',
     },
     unSelected:{
       borderBottom: '2px solid #D8D8D8',
       fontSize: 24,
-      width: '33%',
+      width: '33.3%',
     }
   }
 
@@ -155,31 +155,29 @@ function ProfilePage({ title }) {
             onChange={(e) => setUserName(e.target.value)}
             placeholder='Input User Name...'
           /> : null}
-          {location.state !== window.$user.id && location.state ? 
+          {location.state && location.state !== window.$user.id ? 
             (followBtn ? 
               <Button style={{width: 125,
               height: 35,
               borderRadius: 5,
               backgroundColor: 'gray',
-              margin: '5 10',
               display: 'flex', 
-              flexDirection: 'row',
-              justifyContent: 'space-between'
+              justifyContent: 'space-evenly',
+              alignItems: 'stretch'
               }} 
               onClick={() => unfollow(idUser)} >
-               <div>Unfollow</div> <IoIosRemoveCircleOutline color={'#F1F3F5'} size={30} />
+               <div>Unfollow</div> <IoIosRemoveCircleOutline color={'#F1F3F5'} size={25} />
                 </Button> 
                 :  <Button style={{width: 125,
                   height: 35,
                   borderRadius: 5,
                   backgroundColor: '#3FC184',
-                  margin: '5 10',
                   display: 'flex', 
-                  flexDirection: 'row',
-                  justifyContent: 'space-between'
+                  justifyContent: 'space-evenly',
+                  alignItems: 'stretch'
                   }}  
                   onClick={() => follow(idUser)} >
-                    <div>Follow</div> <IoMdAddCircleOutline color={'#F1F3F5'} size={30} />
+                    <div>Follow</div> <IoMdAddCircleOutline color={'#F1F3F5'} size={25} />
                     </Button>)
               : 
             <Button style={{width: 125,
