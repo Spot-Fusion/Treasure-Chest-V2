@@ -2,13 +2,12 @@ import * as React from 'react'
 import Button from 'react-bootstrap/Button';
 import ImagePicker from '../components/ImagePicker';
 import axios from 'axios'
-import {useLocation, Link, useHistory} from 'react-router-dom'
+import {useLocation, Link} from 'react-router-dom'
 import DisplayListings from '../components/DisplayListings';
 import { IoMdAddCircleOutline, IoIosRemoveCircleOutline } from "react-icons/io";
 
 function ProfilePage({ title }) {
     let location = useLocation();
-    let history = useHistory();
     title("Profile");
     const [userName, setUserName] = React.useState(window.$user.name);
     const [description, setDescription] = React.useState('');
@@ -23,11 +22,10 @@ function ProfilePage({ title }) {
     const [show, setShow] = React.useState(0)
  
     let url = 'localhost'; 
-    let idUser = location.state === undefined ? window.$user.id : location.state;
+    let idUser = location.state;
     const getProfile = async (id) => {
      await axios.get(`http://${url}:8080/user/id/${id}`)
        .then(post => {
-         // console.log(post);
          setUserName(post.data.name)
          setDescription(post.data.bio)
          setImage(post.data.icon)
@@ -55,10 +53,7 @@ function ProfilePage({ title }) {
  
     const getFavListings = async (id) => {
      await axios.get(`http://${url}:8080/favorite/${id}`)
-       .then(post => {
-         console.log(post.data)
-         setFavList(post.data)
-       })
+       .then(post => setFavList(post.data))
        .catch(e => console.error(e));
     }
 
@@ -76,10 +71,7 @@ function ProfilePage({ title }) {
 
     const checkIfFollowing = async (id) => {
       await axios.get(`http://localhost:8080/follow/isFollowing/${window.$user.id}/${id}`)
-          .then(res => {
-            console.log('checking', res.data);
-              res.data ? setFollowBtn(true) : setFollowBtn(false);
-          })
+          .then(res => res.data ? setFollowBtn(true) : setFollowBtn(false))
           .catch(e => console.error(e));
       }
 
@@ -117,8 +109,7 @@ function ProfilePage({ title }) {
      checkIfFollowing(idUser)
      countFollowers(idUser)
      countFollowing(idUser)
-   }, [])
-  //  let listings = sellList;
+   }, [idUser]);
 
   const styles = {
     selected:{
@@ -155,7 +146,7 @@ function ProfilePage({ title }) {
             onChange={(e) => setUserName(e.target.value)}
             placeholder='Input User Name...'
           /> : null}
-          {location.state && location.state !== window.$user.id ? 
+          {idUser !== window.$user.id ? 
             (followBtn ? 
               <Button style={{width: 125,
               height: 35,
