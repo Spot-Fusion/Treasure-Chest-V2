@@ -36,15 +36,11 @@ function App() {
 
   const title = (e) => setLocation(e);
 
-  // console.log("hello", document.getElementById('slidenav').style);
-
   return (
-      // <div>
     <Router>
       <div className="App" styles={{height: '100%'}}>        
        {headerVisible ? <CustomHeader slideMenu={slideMenu} location={location}/> : null}
        <main styles={{marginTop: '50px'}}>
-       {/* <DrawerNav slideMenu={slideMenu} /> */}
        {menuVisible ? <DrawerNav slideMenu={slideMenu} /> : null }   
        {redirect ? <Redirect to={{pathname: '/home'}} /> : null }
         <Switch>
@@ -61,7 +57,6 @@ function App() {
        {footerVisible ? <BottomTabNav /> : null}
       </div>
     </Router>
-    // </div>
   )
 }
 
