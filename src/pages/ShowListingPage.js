@@ -79,8 +79,10 @@ function ShowListingPage({title}) {
                 <p style={{float:'right', fontSize: 24, marginRight: 15}}>{`$${listing.price}`}</p>
             </div>
             <div style={{marginTop: 90}}>
-                <Button onClick={() => {favoriteListing(idListing)}} style={{float: 'left', marginLeft: 75, width: 120}} variant={favBtnColor}>{`${favBtnText} ☆`}</Button>
-                <Link to={{
+                <Button onClick={() => {favoriteListing(idListing)}} 
+                style={listing.id_seller !== window.$user.id ? {float: 'left', marginLeft: 75, width: 120} : {float: 'center', marginLeft: 0, width: 120}} 
+                variant={favBtnColor}>{`${favBtnText} ☆`}</Button>
+                { listing.id_seller !== window.$user.id ? <Link to={{
                         pathname: '/chat',
                         state: {
                             id_recipient: recipient.id,
@@ -89,7 +91,7 @@ function ShowListingPage({title}) {
                         },
                     }}>
                         <Button style={{float: 'right', marginRight: 75, width: 120}} variant={'success'}>Message <MdMessage color={'white'} size={20}/></Button>
-                    </Link>
+                    </Link> : null}
             </div>
             <p style={{float: 'left', marginTop: 25, marginLeft: 25, fontSize: 18}}>{listing.description}</p>
             <div style={{marginTop: 25, marginBottom: 25}}>
