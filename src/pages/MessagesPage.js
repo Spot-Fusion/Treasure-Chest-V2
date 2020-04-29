@@ -9,10 +9,8 @@ const MessagesPage = ({ title }) => {
   const id = window.$user.id;
 
   const dConvert = (date) => {
-    const newDate = new Date();
     date = date.replace('T', ' ').replace('Z', '').split('.')[0].split(' ')[0].split('-');
-    date[1] = newDate.getDate();
-    date = [...date.filter(e => e !== date[0]), date[0]].join('/');
+    date = [...date.filter(e => !e), date[1], date[2], date[0]].join('/');
     return date
   }
 
